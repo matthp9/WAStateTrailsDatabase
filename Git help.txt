@@ -25,6 +25,9 @@ But this will wipe out any uncommitted changes you have.
 
 Push your commits after you’ve made them:
 “git push github”
+If you get a message like you don’t have a tracking branch, or that you need to set the remote upstream, that is fine, you can do so by instead running:
+“git push --set-upstream github [branch name]”
+This is needed for your first push only usually because you haven’t specified a branch on the remote that you want to push to.
 
 Add some documentation to the readme for changes you make.
 In the UI, we can work together to merge branches together, I can take care of that if needed.
