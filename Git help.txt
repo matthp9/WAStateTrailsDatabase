@@ -1,0 +1,31 @@
+Clone the repository from the UI
+Open a shell in your clone
+
+Add the remote repo as a remote, run:
+“git remote add github https://github.com/matthp9/WAStateTrailsDatabase”
+
+Create a feature branch and switch to it so we don’t step on each other’s toes:
+"git checkout -b [your branch name] origin/ui”
+
+Make your changes to the source or whatever.
+
+Run git status. For all the files you changed, run:
+“git add [path to file]” if it’s a new file
+“git stage [path to file]” if you changed an existing file
+
+After adding/staging all your changes, commit them:
+git commit -m “your commit message here”
+For consistency’s sake start the commit message with a lowercase letter
+
+If you ever need to get back to this point in time, run:
+“git reset --hard [commit]”
+Or if you haven’t had any new commits since then, just run:
+“git reset --hard”
+But this will wipe out any uncommitted changes you have.
+
+Push your commits after you’ve made them:
+“git push github”
+
+Add some documentation to the readme for changes you make.
+In the UI, we can work together to merge branches together, I can take care of that if needed.
+
