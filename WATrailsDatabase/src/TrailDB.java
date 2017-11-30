@@ -15,8 +15,8 @@ import java.util.Properties;
  */
 
 public class TrailDB {
-	private static String userName = "hasna024"; // CHANGE TO YOURS
-	private static String password = "SkuecRu"; // CHANGE TO YOURS
+	private static String userName = "USERNAME"; // CHANGE TO YOURS
+	private static String password = "PASSWORD"; // CHANGE TO YOURS
 	private static String serverName = "cssgate.insttech.washington.edu";
 	private static Connection conn;
 	private List<Trail> list;
@@ -41,7 +41,7 @@ public class TrailDB {
 		Statement stmt = null;
 		String query = "select trail_name, trail_location, trail_length, trail_elevation, "
 				+ "dog_friendly, kid_friendly, established_campsites "
-				+ "from hasna024.Trail ";
+				+ "from USERNAME.Trail ";
 
 		list = new ArrayList<Trail>();
 		try {
@@ -89,7 +89,7 @@ public class TrailDB {
 
 
 	public void addTrail(Trail trail) {
-		String sql = "insert into hasna024.Trail values " + "(?, ?, ?, ?, ?, ?, ?); ";
+		String sql = "insert into USERNAME.Trail values " + "(?, ?, ?, ?, ?, ?, ?); ";
 
 		PreparedStatement preparedStatement = null;
 		try {
@@ -111,7 +111,7 @@ public class TrailDB {
 	}
 	
 	public void deleteTrail(Trail trail) {
-		String sql = "delete from hasna024.Trail where trail_name = ? " ;
+		String sql = "delete from USERNAME.Trail where trail_name = ? " ;
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -132,7 +132,7 @@ public class TrailDB {
 		Trail trail = list.get(row);
 		String name = trail.getName();
 		String location = trail.getLocation();
-		String sql = "update hasna024.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
+		String sql = "update USERNAME.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
 		System.out.println(sql);
 		PreparedStatement preparedStatement = null;
 		try {
