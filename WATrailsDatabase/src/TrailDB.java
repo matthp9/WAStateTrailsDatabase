@@ -132,11 +132,12 @@ public class TrailDB {
 		Trail trail = list.get(row);
 		String name = trail.getName();
 		String location = trail.getLocation();
-		String sql = "update USERNAME.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
+		String sql = "UPDATE trails.trail SET " + columnName + " = ?  WHERE trail_name = ? AND trail_location = ? ";
 		System.out.println(sql);
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = conn.prepareStatement(sql);
+
 			if (data instanceof String)
 				preparedStatement.setString(1, (String) data);
 			preparedStatement.setString(2, name);

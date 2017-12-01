@@ -46,7 +46,11 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 	private JPanel pnlModify;
 	private JLabel lblTitleModify;
+	private JLabel lblTitleModify1;
+	private JLabel lblTitleModify2;
 	private JTextField txfTitleModify;
+	private JTextField txfTitleModify1;
+	private JTextField txfTitleModify2;
 	private JButton btnTitleModify;
 
 	private JPanel pnlAdd;
@@ -163,12 +167,20 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		// Modify Panel
 		pnlModify = new JPanel();
-		lblTitleModify = new JLabel("Enter Name of Trail to Modify");
+		lblTitleModify = new JLabel("Enter Trail Row Number to Modify");
+		lblTitleModify1 = new JLabel("Enter Column Name to modify");
+		lblTitleModify2 = new JLabel("Enter new value");
 		txfTitleModify = new JTextField(25);
+		txfTitleModify1 = new JTextField(25);
+		txfTitleModify2 = new JTextField(25);
 		btnTitleModify = new JButton("Modify");
 		btnTitleModify.addActionListener(this);
 		pnlModify.add(lblTitleModify);
 		pnlModify.add(txfTitleModify);
+		pnlModify.add(lblTitleModify1);
+		pnlModify.add(txfTitleModify1);
+		pnlModify.add(lblTitleModify2);
+		pnlModify.add(txfTitleModify2);
 		pnlModify.add(btnTitleModify);
 
 		//Add Panel
@@ -303,16 +315,15 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			}
 
 		} else if (e.getSource() == btnTitleModify) {
-			String name = txfTitleModify.getText();
-			if (name.length() > 0) {
-				db.deleteTrail(name);
-				Trail trail = new Trail(txfField[0].getText(), txfField[1].getText()
-						,txfField[2].getText(), txfField[3].getText(), txfField[4].getText(),
-						txfField[5].getText(), txfField[6].getText() );
-				db.addTrail(trail);
-				JOptionPane.showMessageDialog(null, "Modified Successfully!");
-				for (int i=0; i<txfField.length; i++) {
-					txfField[i].setText("");
+			String row = txfTitleModify.getText();
+			String columnName = txfTitleModify1.getText();
+			String data = txfTitleModify2.getText();
+			if (row.length() > 0) {
+				try{
+					int rowNumber = Integer.parseInt(row);
+					db.updateTrail(rowNumber, columnName, data);
+				}catch(NumberFormatException ex){ // handle your exception
+   					System.err.println(ex);
 				}
 			}
 
