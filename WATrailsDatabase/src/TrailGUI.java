@@ -1,8 +1,8 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.*;
@@ -17,7 +17,7 @@ import javax.swing.table.TableModel;
  * @author mmuppa
  *
  */
-public class TrailGUI extends JFrame implements ActionListener, TableModelListener
+public class TrailGUI extends JFrame implements ActionListener, TableModelListener, PropertyChangeListener
 {
 
 	private static final long serialVersionUID = 1779520078061383929L;
@@ -37,6 +37,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JTable table;
 	private JScrollPane scrollPane;
 
+	private LoginGUI.UserType userType;
 
 	private JPanel pnlSearch;
 	private JLabel lblTitle;;
@@ -84,44 +85,47 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		}
 		setSize(1000, 700);
 		createComponents();
-		setVisible(true);
+		setVisible(false);
 	}
 
 	/**
-	 * Creates panels for Movie list, search, add and adds the corresponding 
+	 * Creates panels for Movie list, search, add and adds the corresponding
 	 * components to each panel.
 	 */
 	private void createComponents()
 	{
+		Color listColor = new Color(100, 200, 10);
+		Color searchColor = new Color(200, 200, 100);
+		Color addColor = new Color(100, 100, 200);
+		Color removeColor = new Color(200, 100, 100);
+
 		pnlButtons = new JPanel();
-		btnList = new JButton("Trail List");
+		btnList = createCustomButton("Trail List", listColor);
 		btnList.addActionListener(this);
 
-		btnSearch = new JButton("Trail Search");
+		btnSearch = createCustomButton("Trail Search", searchColor);
 		btnSearch.addActionListener(this);
 
-		btnAdd = new JButton("Add Trail");
+		btnAdd = createCustomButton("Add Trail", addColor);
 		btnAdd.addActionListener(this);
 
-		btnDelete = new JButton("Delete Trail");
+		btnDelete = createCustomButton("Delete Trail", removeColor);
 		btnDelete.addActionListener(this);
+
+		pnlButtons.repaint();
 
 		pnlButtons.add(btnList);
 		pnlButtons.add(btnSearch);
+
 		pnlButtons.add(btnAdd);
 		pnlButtons.add(btnDelete);
+
 		add(pnlButtons, BorderLayout.NORTH);
 
 		//List Panel
 		pnlContent = new JPanel();
 		table = new JTable(data, columnNames);
 		scrollPane = new JScrollPane(table);
-		table.setSize(new Dimension(900, 600));
-		table.setPreferredSize(new Dimension(900, 600));
-		scrollPane.setSize(new Dimension(900, 600));
-		scrollPane.setPreferredSize(new Dimension(900, 600));
-		pnlContent.setSize(new Dimension(900, 600));
-		pnlContent.setPreferredSize(new Dimension(900, 600));
 		pnlContent.add(scrollPane);
 		table.getModel().addTableModelListener(this);
 
@@ -137,26 +141,28 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		//Delete Panel
 		pnlDelete = new JPanel();
+		pnlDelete.add(new JLabel("Warning: you are about to permanently delete a trail."));
 		lblTitleDelete = new JLabel("Enter Name: ");
 		txfTitleDelete = new JTextField(25);
+		
 		btnTitleDelete = new JButton("Delete");
 		pnlDelete.add(lblTitleDelete);
 		pnlDelete.add(txfTitleDelete);
 		pnlDelete.add(btnTitleDelete);
+		pnlDelete.setBackground(removeColor);
+		btnTitleDelete.addActionListener(this);
 
 		//Add Panel
 		pnlAdd = new JPanel();
 		pnlAdd.setLayout(new GridLayout(8, 0));
-		String labelNames[] = {"Enter Name: ", "Enter Location: ", "Enter Length: ", "Enter Elevation: ",
+		String labelNames[] = {"Enter Name: ", "Enter Location: ", "Enter Length (miles): ", "Enter Elevation (ft): ",
 				"Dog Friendly: ", "Kid Friendly: ", "Established Campsites: "};
 
 		for (int j = 0; j < labelNames.length; j++){
-			JPanel panel = new JPanel();
-			txfLabel[j] = new JLabel(labelNames[j]);
+			txfLabel[j] = new JLabel(labelNames[j], JLabel.LEFT);
 			txfField[j] = new JTextField(25);
-			panel.add(txfLabel[j]);
-			panel.add(txfField[j]);
-			pnlAdd.add(panel);
+			pnlAdd.add(txfLabel[j]);
+			pnlAdd.add(txfField[j]);
 		}
 
 		JPanel panel = new JPanel();
@@ -165,8 +171,18 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		panel.add(btnAddTrail);
 		pnlAdd.add(panel);
 
+		pnlButtons.setBackground(new Color(50,100, 50));
+		pnlContent.setBackground(new Color(50,100, 50));
+
 		add(pnlContent, BorderLayout.CENTER);
 
+		setTableSize();
+	}
+
+	private JButton createCustomButton(String text, Color c) {
+		JButton button = new JButton(text);
+		button.setForeground(c);
+		return button;
 	}
 
 	/**
@@ -174,9 +190,10 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	 */
 	public static void main(String[] args)
 	{
+		LoginGUI loginGUI = new LoginGUI();
 		TrailGUI trailGUI = new TrailGUI();
+		loginGUI.addPropertyChangeListener(trailGUI);
 		trailGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 	}
 
 	/**
@@ -229,10 +246,13 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			this.repaint();
 
 		} else if (e.getSource() == btnTitleDelete) {
-			//add action for btnTitleDelete
+//			add action for btn TitleDelete
+			String name = txfTitleDelete.getText();
 
-			System.out.println("btnTitleDelete clicked");
-
+			if (name.length() > 0) {
+				db.deleteTrail(name);
+				JOptionPane.showMessageDialog(null, "Deleted Successfully!");
+			}
 
 		} else if (e.getSource() == btnTitleSearch) {
 			String name = txfTitle.getText();
@@ -267,6 +287,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			}
 		}
 
+		setTableSize();
 	}
 
 	/**
@@ -284,4 +305,28 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 	}
 
+	private void setTableSize() {
+		scrollPane.setSize(new Dimension(900, 600));
+		scrollPane.setPreferredSize(new Dimension(900, 600));
+		pnlContent.setSize(new Dimension(900, 600));
+		pnlContent.setPreferredSize(new Dimension(900, 600));
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("UserType")) {
+			userType = (LoginGUI.UserType) evt.getNewValue();
+
+			if (userType.equals(LoginGUI.UserType.PATHFINDER)) {
+				btnAdd.setVisible(true);
+				btnDelete.setVisible(true);
+			} else {
+				btnAdd.setVisible(false);
+				btnDelete.setVisible(false);
+			}
+
+			setVisible(true);
+			repaint();
+		}
+	}
 }
