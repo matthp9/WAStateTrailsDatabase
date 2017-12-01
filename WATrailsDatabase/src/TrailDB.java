@@ -148,4 +148,23 @@ public class TrailDB {
 		}
 
 	}
+
+	public void checkUserNames(String name) {
+		String sql = "select name from trails.Hiker where name = ? " ;
+
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, name);
+
+			if(preparedStatement.executeQuery().next()) {
+				System.out.println("yes");
+			} else {
+				System.out.println("no");
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+	}
 }

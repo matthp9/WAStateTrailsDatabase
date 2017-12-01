@@ -12,8 +12,10 @@ import java.awt.event.ActionListener;
 public class LoginGUI extends JFrame {
 
     private UserType userType;
+    private TrailDB db;
 
     public LoginGUI() {
+        db = new TrailDB();
         setSize(new Dimension(400, 300));
         userType = UserType.NONE;
         addElements();
@@ -26,7 +28,7 @@ public class LoginGUI extends JFrame {
         JPanel pnlSouth = new JPanel();
 
         pnlNorth.add(new JLabel("Username"));
-        JTextField name = new JTextField();
+        JTextField name = new JTextField("name here");
         pnlNorth.add(name);
 
         pnlSouth.add(new JLabel("Please select a login type"), JLabel.CENTER);
@@ -43,6 +45,7 @@ public class LoginGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 userType = UserType.HIKER;
                 firePropertyChange("UserType", 0, userType);
+                db.checkUserNames(name.getText());
             }
         });
 
@@ -51,6 +54,7 @@ public class LoginGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 userType = UserType.PATHFINDER;
                 firePropertyChange("UserType", 0, userType);
+                db.checkUserNames(name.getText());
             }
         });
         add(pnlNorth, BorderLayout.NORTH);
