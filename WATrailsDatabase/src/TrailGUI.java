@@ -139,11 +139,13 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlDelete.add(new JLabel("Warning: you are about to permanently delete a trail."));
 		lblTitleDelete = new JLabel("Enter Name: ");
 		txfTitleDelete = new JTextField(25);
+		
 		btnTitleDelete = new JButton("Delete");
 		pnlDelete.add(lblTitleDelete);
 		pnlDelete.add(txfTitleDelete);
 		pnlDelete.add(btnTitleDelete);
 		pnlDelete.setBackground(removeColor);
+		btnTitleDelete.addActionListener(this);
 
 		//Add Panel
 		pnlAdd = new JPanel();
@@ -238,10 +240,13 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			this.repaint();
 
 		} else if (e.getSource() == btnTitleDelete) {
-			//add action for btnTitleDelete
+//			add action for btn TitleDelete
+			String name = txfTitleDelete.getText();
 
-			System.out.println("btnTitleDelete clicked");
-
+			if (name.length() > 0) {
+				db.deleteTrail(name);
+				JOptionPane.showMessageDialog(null, "Deleted Successfully!");
+			}
 
 		} else if (e.getSource() == btnTitleSearch) {
 			String name = txfTitle.getText();

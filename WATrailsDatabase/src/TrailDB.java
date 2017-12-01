@@ -110,14 +110,13 @@ public class TrailDB {
 		}
 	}
 
-	public void deleteTrail(Trail trail) {
+	public void deleteTrail(String name) {
 		String sql = "delete from trails.Trail where trail_name = ? " ;
 
 		PreparedStatement preparedStatement = null;
-
 		try {
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, trail.getName());
+			preparedStatement.setString(1, name);
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -132,7 +131,7 @@ public class TrailDB {
 		Trail trail = list.get(row);
 		String name = trail.getName();
 		String location = trail.getLocation();
-		String sql = "update trails.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
+		String sql = "update USERNAME.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
 		System.out.println(sql);
 		PreparedStatement preparedStatement = null;
 		try {
