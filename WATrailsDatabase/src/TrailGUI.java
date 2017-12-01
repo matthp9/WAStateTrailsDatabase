@@ -1,6 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -93,18 +91,25 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	 */
 	private void createComponents()
 	{
+		Color listColor = new Color(100, 200, 10);
+		Color searchColor = new Color(200, 200, 100);
+		Color addColor = new Color(100, 100, 200);
+		Color removeColor = new Color(200, 100, 100);
+
 		pnlButtons = new JPanel();
-		btnList = new JButton("Trail List");
+		btnList = createCustomButton("Trail List", listColor);
 		btnList.addActionListener(this);
 
-		btnSearch = new JButton("Trail Search");
+		btnSearch = createCustomButton("Trail Search", searchColor);
 		btnSearch.addActionListener(this);
 
-		btnAdd = new JButton("Add Trail");
+		btnAdd = createCustomButton("Add Trail", addColor);
 		btnAdd.addActionListener(this);
 
-		btnDelete = new JButton("Delete Trail");
+		btnDelete = createCustomButton("Delete Trail", removeColor);
 		btnDelete.addActionListener(this);
+
+		pnlButtons.repaint();
 
 		pnlButtons.add(btnList);
 		pnlButtons.add(btnSearch);
@@ -131,12 +136,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		//Delete Panel
 		pnlDelete = new JPanel();
+		pnlDelete.add(new JLabel("Warning: you are about to permanently delete a trail."));
 		lblTitleDelete = new JLabel("Enter Name: ");
 		txfTitleDelete = new JTextField(25);
 		btnTitleDelete = new JButton("Delete");
 		pnlDelete.add(lblTitleDelete);
 		pnlDelete.add(txfTitleDelete);
 		pnlDelete.add(btnTitleDelete);
+		pnlDelete.setBackground(removeColor);
 
 		//Add Panel
 		pnlAdd = new JPanel();
@@ -152,6 +159,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			panel.add(txfField[j]);
 			pnlAdd.add(panel);
 		}
+		pnlAdd.setBackground(addColor);
 
 		JPanel panel = new JPanel();
 		btnAddTrail = new JButton("Add");
@@ -162,6 +170,12 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		add(pnlContent, BorderLayout.CENTER);
 
 		setTableSize();
+	}
+
+	private JButton createCustomButton(String text, Color c) {
+		JButton button = new JButton(text);
+		button.setForeground(c);
+		return button;
 	}
 
 	/**

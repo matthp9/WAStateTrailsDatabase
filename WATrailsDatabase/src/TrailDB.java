@@ -28,7 +28,7 @@ public class TrailDB {
 		connectionProps.put("password", password);
 
 		conn = DriverManager.getConnection("jdbc:" + "mysql" + "://"
-				+ serverName + "/trails", connectionProps);
+				+ serverName + "/", connectionProps);
 
 		System.out.println("Connected to database");
 	}
@@ -56,7 +56,7 @@ public class TrailDB {
 				String kid_friendly = rs.getString("kid_friendly");
 				String established_campsites = rs.getString("established_campsites");
 				Trail trail = new Trail(trail_name, trail_location, trail_length, trail_elevation,
-										dog_friendly, kid_friendly, established_campsites);
+						dog_friendly, kid_friendly, established_campsites);
 				list.add(trail);
 			}
 		} catch (SQLException e) {
@@ -71,8 +71,8 @@ public class TrailDB {
 
 
 	public List<Trail> getTrail(String trail_name) {
-		
-		
+
+
 		List<Trail> filterList = new ArrayList<Trail>();
 		try {
 			list = getTrail();
@@ -89,7 +89,7 @@ public class TrailDB {
 
 
 	public void addTrail(Trail trail) {
-		String sql = "insert into USERNAME.Trail values " + "(?, ?, ?, ?, ?, ?, ?); ";
+		String sql = "insert into trails.Trail values " + "(?, ?, ?, ?, ?, ?, ?); ";
 
 		PreparedStatement preparedStatement = null;
 		try {
@@ -107,18 +107,18 @@ public class TrailDB {
 			System.out.println(e);
 			e.printStackTrace();
 //			System.out.println("Didn't work");
-		} 
+		}
 	}
-	
+
 	public void deleteTrail(Trail trail) {
-		String sql = "delete from USERNAME.Trail where trail_name = ? " ;
-		
+		String sql = "delete from trails.Trail where trail_name = ? " ;
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, trail.getName());
-			
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -128,11 +128,11 @@ public class TrailDB {
 
 
 	public void updateTrail(int row, String columnName, Object data) {
-		
+
 		Trail trail = list.get(row);
 		String name = trail.getName();
 		String location = trail.getLocation();
-		String sql = "update USERNAME.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
+		String sql = "update trails.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
 		System.out.println(sql);
 		PreparedStatement preparedStatement = null;
 		try {
@@ -142,11 +142,11 @@ public class TrailDB {
 			preparedStatement.setString(2, name);
 			preparedStatement.setString(3, location);
 			preparedStatement.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			System.out.println(e);
 			e.printStackTrace();
-		} 
-		
+		}
+
 	}
 }
