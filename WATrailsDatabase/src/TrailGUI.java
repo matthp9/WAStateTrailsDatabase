@@ -88,7 +88,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	}
 
 	/**
-	 * Creates panels for Movie list, search, add and adds the corresponding 
+	 * Creates panels for Movie list, search, add and adds the corresponding
 	 * components to each panel.
 	 */
 	private void createComponents()
@@ -116,12 +116,6 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlContent = new JPanel();
 		table = new JTable(data, columnNames);
 		scrollPane = new JScrollPane(table);
-		table.setSize(new Dimension(900, 600));
-		table.setPreferredSize(new Dimension(900, 600));
-		scrollPane.setSize(new Dimension(900, 600));
-		scrollPane.setPreferredSize(new Dimension(900, 600));
-		pnlContent.setSize(new Dimension(900, 600));
-		pnlContent.setPreferredSize(new Dimension(900, 600));
 		pnlContent.add(scrollPane);
 		table.getModel().addTableModelListener(this);
 
@@ -167,6 +161,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		add(pnlContent, BorderLayout.CENTER);
 
+		setTableSize();
 	}
 
 	/**
@@ -267,6 +262,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			}
 		}
 
+		setTableSize();
 	}
 
 	/**
@@ -282,6 +278,13 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		db.updateTrail(row, columnName, data);
 
+	}
+
+	private void setTableSize() {
+		scrollPane.setSize(new Dimension(900, 600));
+		scrollPane.setPreferredSize(new Dimension(900, 600));
+		pnlContent.setSize(new Dimension(900, 600));
+		pnlContent.setPreferredSize(new Dimension(900, 600));
 	}
 
 }
