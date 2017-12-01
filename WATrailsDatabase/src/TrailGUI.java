@@ -225,13 +225,12 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			
 		} else if (e.getSource() == btnTitleDelete) {
 //			add action for btn TitleDelete
-			String name = txfTitle.getText();
+			String name = txfTitleDelete.getText();
+			
 			if (name.length() > 0) {
 				db.deleteTrail(name);
 				JOptionPane.showMessageDialog(null, "Deleted Successfully!");
 			}
-			
-			System.out.println("Delete Clicked");
 			
 		} else if (e.getSource() == btnTitleSearch) {
 			String name = txfTitle.getText();

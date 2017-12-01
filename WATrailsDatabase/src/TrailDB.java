@@ -111,10 +111,9 @@ public class TrailDB {
 	}
 	
 	public void deleteTrail(String name) {
-		String sql = "delete from hasna024.Trail where trail_name = ? " ;
+		String sql = "delete from USERNAME.Trail where trail_name = ? " ;
 		
 		PreparedStatement preparedStatement = null;
-		
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, name);
