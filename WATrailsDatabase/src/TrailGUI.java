@@ -169,6 +169,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		panel.add(btnAddTrail);
 		pnlAdd.add(panel);
 
+		pnlButtons.setBackground(new Color(50,100, 50));
+		pnlContent.setBackground(new Color(50,100, 50));
+
 		add(pnlContent, BorderLayout.CENTER);
 
 		setTableSize();
