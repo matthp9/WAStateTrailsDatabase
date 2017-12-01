@@ -82,7 +82,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		{
 			e.printStackTrace();
 		}
-		setSize(500, 500);
+		setSize(1000, 700);
 		createComponents();
 		setVisible(true);
 	}
@@ -116,6 +116,12 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlContent = new JPanel();
 		table = new JTable(data, columnNames);
 		scrollPane = new JScrollPane(table);
+		table.setSize(new Dimension(900, 600));
+		table.setPreferredSize(new Dimension(900, 600));
+		scrollPane.setSize(new Dimension(900, 600));
+		scrollPane.setPreferredSize(new Dimension(900, 600));
+		pnlContent.setSize(new Dimension(900, 600));
+		pnlContent.setPreferredSize(new Dimension(900, 600));
 		pnlContent.add(scrollPane);
 		table.getModel().addTableModelListener(this);
 		
