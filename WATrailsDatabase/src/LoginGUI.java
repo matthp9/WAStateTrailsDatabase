@@ -1,8 +1,8 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 
 /**
@@ -16,18 +16,27 @@ public class LoginGUI extends JFrame {
     public LoginGUI() {
         setSize(new Dimension(400, 300));
         userType = UserType.NONE;
-        addButtons();
+        addElements();
         setVisible(true);
     }
 
-    public void addButtons() {
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Please select a login type"), JLabel.CENTER);
-        panel.setLayout(new GridLayout(3,0));
+    public void addElements() {
+        this.setLayout(new BorderLayout());
+        JPanel pnlNorth = new JPanel();
+        JPanel pnlSouth = new JPanel();
+
+        pnlNorth.add(new JLabel("Username"));
+        JTextField name = new JTextField();
+        pnlNorth.add(name);
+
+        pnlSouth.add(new JLabel("Please select a login type"), JLabel.CENTER);
+        pnlSouth.setLayout(new GridLayout(3,0));
         JButton hiker = new JButton("Hiker");
-        panel.add(hiker);
+        pnlSouth.add(hiker);
         JButton pathfinder = new JButton("Pathfinder");
-        panel.add(pathfinder);
+        pnlSouth.add(pathfinder);
+
+
 
         hiker.addActionListener(new ActionListener() {
             @Override
@@ -44,8 +53,8 @@ public class LoginGUI extends JFrame {
                 firePropertyChange("UserType", 0, userType);
             }
         });
-
-        add(panel);
+        add(pnlNorth, BorderLayout.NORTH);
+        add(pnlSouth, BorderLayout.SOUTH);
     }
 
     /**
