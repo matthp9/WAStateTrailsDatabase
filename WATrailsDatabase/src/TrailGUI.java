@@ -21,7 +21,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 {
 
 	private static final long serialVersionUID = 1779520078061383929L;
-	private JButton btnList, btnSearch, btnAdd, btnDelete;
+	private JButton btnList, btnSearch, btnAdd, btnDelete, btnModify;
 	private JPanel pnlButtons, pnlContent;
 	private TrailDB db;
 	private List<Trail> list;
@@ -43,6 +43,11 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JLabel lblTitle;;
 	private JTextField txfTitle;
 	private JButton btnTitleSearch;
+
+	private JPanel pnlModify;
+	private JLabel lblTitleModify;
+	private JTextField txfTitleModify;
+	private JButton btnTitleModify;
 
 	private JPanel pnlAdd;
 	private JLabel[] txfLabel = new JLabel[7];
@@ -98,6 +103,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		Color searchColor = new Color(200, 200, 100);
 		Color addColor = new Color(100, 100, 200);
 		Color removeColor = new Color(200, 100, 100);
+		Color modifyColor = new Color(200, 100, 200);
 
 		pnlButtons = new JPanel();
 		btnList = createCustomButton("Trail List", listColor);
@@ -112,11 +118,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		btnDelete = createCustomButton("Delete Trail", removeColor);
 		btnDelete.addActionListener(this);
 
+		btnModify = createCustomButton("Modify Trail", modifyColor);
+		btnModify.addActionListener(this);
+
 		pnlButtons.repaint();
 
 		pnlButtons.add(btnList);
 		pnlButtons.add(btnSearch);
-
+		pnlButtons.add(btnModify);
 		pnlButtons.add(btnAdd);
 		pnlButtons.add(btnDelete);
 
@@ -151,6 +160,16 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlDelete.add(btnTitleDelete);
 		pnlDelete.setBackground(removeColor);
 		btnTitleDelete.addActionListener(this);
+
+		// Modify Panel
+		pnlModify = new JPanel();
+		lblTitleModify = new JLabel("Enter Name of Trail to Modify");
+		txfTitleModify = new JTextField(25);
+		btnTitleModify = new JButton("Modify");
+		btnTitleModify.addActionListener(this);
+		pnlModify.add(lblTitleModify);
+		pnlModify.add(txfTitleModify);
+		pnlModify.add(btnTitleModify);
 
 		//Add Panel
 		pnlAdd = new JPanel();
@@ -233,6 +252,12 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			pnlContent.revalidate();
 			this.repaint();
 
+		} else if (e.getSource() == btnModify) {
+			pnlContent.removeAll();
+			pnlContent.add(pnlModify);
+			pnlContent.revalidate();
+			this.repaint();
+
 		} else if (e.getSource() == btnDelete) {
 			pnlContent.removeAll();
 			pnlContent.add(pnlDelete);
@@ -259,7 +284,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			if (name.length() > 0) {
 				list = db.getTrail(name);
 				data = new Object[list.size()][columnNames.length];
-				for (int i=0; i<list.size(); i++) {
+				for (int i = 0; i < list.size(); i++) {
 					data[i][0] = list.get(i).getName();
 					data[i][1] = list.get(i).getLocation();
 					data[i][2] = list.get(i).getLength();
@@ -276,6 +301,21 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				pnlContent.revalidate();
 				this.repaint();
 			}
+
+		} else if (e.getSource() == btnTitleModify) {
+			String name = txfTitleModify.getText();
+			if (name.length() > 0) {
+				db.deleteTrail(name);
+				Trail trail = new Trail(txfField[0].getText(), txfField[1].getText()
+						,txfField[2].getText(), txfField[3].getText(), txfField[4].getText(),
+						txfField[5].getText(), txfField[6].getText() );
+				db.addTrail(trail);
+				JOptionPane.showMessageDialog(null, "Modified Successfully!");
+				for (int i=0; i<txfField.length; i++) {
+					txfField[i].setText("");
+				}
+			}
+
 		} else if (e.getSource() == btnAddTrail) {
 			Trail trail = new Trail(txfField[0].getText(), txfField[1].getText()
 					,txfField[2].getText(), txfField[3].getText(), txfField[4].getText(),

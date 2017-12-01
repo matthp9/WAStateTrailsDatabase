@@ -25,6 +25,7 @@ public class LoginGUI extends JFrame {
         panel.add(new JLabel("Please select a login type"), JLabel.CENTER);
         panel.setLayout(new GridLayout(3,0));
         JButton hiker = new JButton("Hiker");
+
         panel.add(hiker);
         JButton pathfinder = new JButton("Pathfinder");
         panel.add(pathfinder);
