@@ -15,8 +15,8 @@ import java.util.Properties;
  */
 
 public class TrailDB {
-	private static String userName = "root"; // CHANGE TO YOURS
-	private static String password = "atbx-143-!$#-"; // CHANGE TO YOURS
+	private static String userName = "bsands2"; // CHANGE TO YOURS
+	private static String password = "password"; // CHANGE TO YOURS
 	private static String serverName = "localhost:3306";
 	private static Connection conn;
 	private List<Trail> list;
