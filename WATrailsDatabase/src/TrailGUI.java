@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -133,10 +132,12 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlDelete = new JPanel();
 		lblTitleDelete = new JLabel("Enter Name: ");
 		txfTitleDelete = new JTextField(25);
+		
 		btnTitleDelete = new JButton("Delete");
 		pnlDelete.add(lblTitleDelete);
 		pnlDelete.add(txfTitleDelete);
 		pnlDelete.add(btnTitleDelete);
+		btnTitleDelete.addActionListener(this);
 		
 		//Add Panel
 		pnlAdd = new JPanel();
@@ -223,10 +224,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			this.repaint();
 			
 		} else if (e.getSource() == btnTitleDelete) {
-			//add action for btnTitleDelete
+//			add action for btn TitleDelete
+			String name = txfTitle.getText();
+			if (name.length() > 0) {
+				db.deleteTrail(name);
+				JOptionPane.showMessageDialog(null, "Deleted Successfully!");
+			}
 			
-			System.out.println("btnTitleDelete clicked");
-
+			System.out.println("Delete Clicked");
 			
 		} else if (e.getSource() == btnTitleSearch) {
 			String name = txfTitle.getText();
