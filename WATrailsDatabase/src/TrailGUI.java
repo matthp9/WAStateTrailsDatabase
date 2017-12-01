@@ -150,18 +150,15 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		//Add Panel
 		pnlAdd = new JPanel();
 		pnlAdd.setLayout(new GridLayout(8, 0));
-		String labelNames[] = {"Enter Name: ", "Enter Location: ", "Enter Length: ", "Enter Elevation: ",
+		String labelNames[] = {"Enter Name: ", "Enter Location: ", "Enter Length (miles): ", "Enter Elevation (ft): ",
 				"Dog Friendly: ", "Kid Friendly: ", "Established Campsites: "};
 
 		for (int j = 0; j < labelNames.length; j++){
-			JPanel panel = new JPanel();
-			txfLabel[j] = new JLabel(labelNames[j]);
+			txfLabel[j] = new JLabel(labelNames[j], JLabel.LEFT);
 			txfField[j] = new JTextField(25);
-			panel.add(txfLabel[j]);
-			panel.add(txfField[j]);
-			pnlAdd.add(panel);
+			pnlAdd.add(txfLabel[j]);
+			pnlAdd.add(txfField[j]);
 		}
-		pnlAdd.setBackground(addColor);
 
 		JPanel panel = new JPanel();
 		btnAddTrail = new JButton("Add");
