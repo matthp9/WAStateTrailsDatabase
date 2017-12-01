@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.*;
@@ -15,7 +17,7 @@ import javax.swing.table.TableModel;
  * @author mmuppa
  *
  */
-public class TrailGUI extends JFrame implements ActionListener, TableModelListener
+public class TrailGUI extends JFrame implements ActionListener, TableModelListener, PropertyChangeListener
 {
 
 	private static final long serialVersionUID = 1779520078061383929L;
@@ -35,6 +37,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JTable table;
 	private JScrollPane scrollPane;
 
+	private LoginGUI.UserType userType;
 
 	private JPanel pnlSearch;
 	private JLabel lblTitle;;
@@ -82,7 +85,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		}
 		setSize(1000, 700);
 		createComponents();
-		setVisible(true);
+		setVisible(false);
 	}
 
 	/**
@@ -113,8 +116,10 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		pnlButtons.add(btnList);
 		pnlButtons.add(btnSearch);
+
 		pnlButtons.add(btnAdd);
 		pnlButtons.add(btnDelete);
+
 		add(pnlButtons, BorderLayout.NORTH);
 
 		//List Panel
@@ -185,9 +190,10 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	 */
 	public static void main(String[] args)
 	{
+		LoginGUI loginGUI = new LoginGUI();
 		TrailGUI trailGUI = new TrailGUI();
+		loginGUI.addPropertyChangeListener(trailGUI);
 		trailGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 	}
 
 	/**
@@ -306,4 +312,21 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlContent.setPreferredSize(new Dimension(900, 600));
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("UserType")) {
+			userType = (LoginGUI.UserType) evt.getNewValue();
+
+			if (userType.equals(LoginGUI.UserType.PATHFINDER)) {
+				btnAdd.setVisible(true);
+				btnDelete.setVisible(true);
+			} else {
+				btnAdd.setVisible(false);
+				btnDelete.setVisible(false);
+			}
+
+			setVisible(true);
+			repaint();
+		}
+	}
 }
