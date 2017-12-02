@@ -12,11 +12,15 @@ import java.awt.event.WindowEvent;
 public class LoginGUI extends JFrame {
 
     private UserType userType;
+    private JPanel mainPanel = new JPanel();
+    
 
     public LoginGUI() {
-        setSize(new Dimension(400, 300));
+        setSize(new Dimension(280, 150));
+        setLayout(new GridLayout());
         userType = UserType.NONE;
         addButtons();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
@@ -44,8 +48,10 @@ public class LoginGUI extends JFrame {
                 firePropertyChange("UserType", 0, userType);
             }
         });
-
-        add(panel);
+        
+        mainPanel.add(panel, new GridBagConstraints());
+        add(mainPanel);
+        setLocationRelativeTo(null);
     }
 
     /**

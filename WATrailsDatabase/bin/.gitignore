@@ -1,5 +1,10 @@
 /.DS_Store
+/LoginGUI$1.class
+/LoginGUI$2.class
+/LoginGUI$UserType.class
+/LoginGUI.class
 /Trail.class
 /TrailDB.class
 /TrailGUI.class
 /build_database_trail.sql
+/build_database_users.sql
