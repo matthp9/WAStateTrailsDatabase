@@ -21,7 +21,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 {
 
 	private static final long serialVersionUID = 1779520078061383929L;
-	private JButton btnList, btnSearch, btnAdd, btnDelete, btnModify;
+	private JButton btnList, btnSearch, btnAdd, btnDelete, btnUpdate;
 	private JPanel pnlButtons, pnlContent;
 	private TrailDB db;
 	private List<Trail> list;
@@ -43,15 +43,15 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JLabel lblTitle;;
 	private JTextField txfTitle;
 	private JButton btnTitleSearch;
-
-	private JPanel pnlModify;
-	private JLabel lblTitleModify;
-	private JLabel lblTitleModify1;
-	private JLabel lblTitleModify2;
-	private JTextField txfTitleModify;
-	private JTextField txfTitleModify1;
-	private JTextField txfTitleModify2;
-	private JButton btnTitleModify;
+	
+	private JPanel pnlUpdate;
+	private JLabel txfLabelUpdateFeature;
+	private JTextField txfUpdateFeature;
+	private JLabel txfLabelUpdateName;
+	private JTextField txfUpdateName;
+	private JTextField txfUpdateUpdate;
+	private JLabel txfLabelUpdateUpdate;
+	private JButton btnTitleUpdate;
 
 	private JPanel pnlAdd;
 	private JLabel[] txfLabel = new JLabel[7];
@@ -94,6 +94,8 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		}
 		setSize(1000, 700);
 		createComponents();
+		pack();
+		setLocationRelativeTo(null);
 		setVisible(false);
 	}
 
@@ -107,7 +109,8 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		Color searchColor = new Color(200, 200, 100);
 		Color addColor = new Color(100, 100, 200);
 		Color removeColor = new Color(200, 100, 100);
-		Color modifyColor = new Color(200, 100, 200);
+		Color updateColor = new Color(178, 102, 255);
+
 
 		pnlButtons = new JPanel();
 		btnList = createCustomButton("Trail List", listColor);
@@ -121,17 +124,17 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		btnDelete = createCustomButton("Delete Trail", removeColor);
 		btnDelete.addActionListener(this);
-
-		btnModify = createCustomButton("Modify Trail", modifyColor);
-		btnModify.addActionListener(this);
+		
+		btnUpdate = createCustomButton("Update Trail", updateColor);
+		btnUpdate.addActionListener(this);
 
 		pnlButtons.repaint();
 
 		pnlButtons.add(btnList);
 		pnlButtons.add(btnSearch);
-		pnlButtons.add(btnModify);
 		pnlButtons.add(btnAdd);
 		pnlButtons.add(btnDelete);
+		pnlButtons.add(btnUpdate);
 
 		add(pnlButtons, BorderLayout.NORTH);
 
@@ -157,32 +160,35 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlDelete.add(new JLabel("Warning: you are about to permanently delete a trail."));
 		lblTitleDelete = new JLabel("Enter Name: ");
 		txfTitleDelete = new JTextField(25);
-		
 		btnTitleDelete = new JButton("Delete");
 		pnlDelete.add(lblTitleDelete);
 		pnlDelete.add(txfTitleDelete);
 		pnlDelete.add(btnTitleDelete);
 		pnlDelete.setBackground(removeColor);
 		btnTitleDelete.addActionListener(this);
-
-		// Modify Panel
-		pnlModify = new JPanel();
-		lblTitleModify = new JLabel("Enter Trail Row Number to Modify");
-		lblTitleModify1 = new JLabel("Enter Column Name to modify");
-		lblTitleModify2 = new JLabel("Enter new value");
-		txfTitleModify = new JTextField(25);
-		txfTitleModify1 = new JTextField(25);
-		txfTitleModify2 = new JTextField(25);
-		btnTitleModify = new JButton("Modify");
-		btnTitleModify.addActionListener(this);
-		pnlModify.add(lblTitleModify);
-		pnlModify.add(txfTitleModify);
-		pnlModify.add(lblTitleModify1);
-		pnlModify.add(txfTitleModify1);
-		pnlModify.add(lblTitleModify2);
-		pnlModify.add(txfTitleModify2);
-		pnlModify.add(btnTitleModify);
-
+		
+		//Update Panel
+		pnlUpdate = new JPanel();
+		pnlUpdate.setLayout(new GridLayout(5, 0));	
+		txfLabelUpdateFeature = new JLabel("Enter Column Name: ");
+		txfUpdateFeature = new JTextField(25);
+		txfLabelUpdateName = new JLabel("Enter Trail Name: ");
+		txfUpdateName = new JTextField(25);
+		txfLabelUpdateUpdate = new JLabel("Enter Update: ");
+		txfUpdateUpdate = new JTextField(25);
+		btnTitleUpdate = new JButton("Update");
+		pnlUpdate.add(txfLabelUpdateFeature);
+		pnlUpdate.add(txfUpdateFeature);
+		pnlUpdate.add(txfLabelUpdateName);
+		pnlUpdate.add(txfUpdateName);
+		pnlUpdate.add(txfLabelUpdateUpdate);
+		pnlUpdate.add(txfUpdateUpdate);
+		
+		JPanel updateBtnPanel = new JPanel();
+		updateBtnPanel.add(btnTitleUpdate, BorderLayout.CENTER);
+		pnlUpdate.add(updateBtnPanel);
+		btnTitleUpdate.addActionListener(this);
+		
 		//Add Panel
 		pnlAdd = new JPanel();
 		pnlAdd.setLayout(new GridLayout(8, 0));
@@ -200,13 +206,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		btnAddTrail = new JButton("Add");
 		btnAddTrail.addActionListener(this);
 		panel.add(btnAddTrail);
-		pnlAdd.add(panel);
-
-		pnlButtons.setBackground(new Color(50,100, 50));
-		pnlContent.setBackground(new Color(50,100, 50));
-
+		pnlAdd.add(panel);		
+		
 		add(pnlContent, BorderLayout.CENTER);
-
 		setTableSize();
 	}
 
@@ -264,26 +266,37 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			pnlContent.revalidate();
 			this.repaint();
 
-		} else if (e.getSource() == btnModify) {
-			pnlContent.removeAll();
-			pnlContent.add(pnlModify);
-			pnlContent.revalidate();
-			this.repaint();
-
 		} else if (e.getSource() == btnDelete) {
 			pnlContent.removeAll();
 			pnlContent.add(pnlDelete);
 			pnlContent.revalidate();
 			this.repaint();
+			
+		} else if (e.getSource() == btnUpdate) {
 
+			pnlContent.removeAll();
+			pnlContent.add(pnlUpdate);
+			pnlContent.revalidate();
+			this.repaint();
+			
 		} else if (e.getSource() == btnAdd) {
 			pnlContent.removeAll();
 			pnlContent.add(pnlAdd);
 			pnlContent.revalidate();
 			this.repaint();
+			
+		} else if (e.getSource() == btnTitleUpdate) {	
+			
+			String update = txfUpdateFeature.getText();
+			String name = txfUpdateName.getText();
+			String columnName = txfUpdateUpdate.getText();
+			
+			if (name.length() > 0) {
+				db.modifyTrail(update, columnName, name);
+				JOptionPane.showMessageDialog(null, "Updated Successfully!");
+			}
 
 		} else if (e.getSource() == btnTitleDelete) {
-//			add action for btn TitleDelete
 			String name = txfTitleDelete.getText();
 
 			if (name.length() > 0) {
@@ -296,7 +309,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			if (name.length() > 0) {
 				list = db.getTrail(name);
 				data = new Object[list.size()][columnNames.length];
-				for (int i = 0; i < list.size(); i++) {
+				for (int i=0; i<list.size(); i++) {
 					data[i][0] = list.get(i).getName();
 					data[i][1] = list.get(i).getLocation();
 					data[i][2] = list.get(i).getLength();
@@ -313,20 +326,6 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				pnlContent.revalidate();
 				this.repaint();
 			}
-
-		} else if (e.getSource() == btnTitleModify) {
-			String row = txfTitleModify.getText();
-			String columnName = txfTitleModify1.getText();
-			String data = txfTitleModify2.getText();
-			if (row.length() > 0) {
-				try{
-					int rowNumber = Integer.parseInt(row);
-					db.updateTrail(rowNumber, columnName, data);
-				}catch(NumberFormatException ex){ // handle your exception
-   					System.err.println(ex);
-				}
-			}
-
 		} else if (e.getSource() == btnAddTrail) {
 			Trail trail = new Trail(txfField[0].getText(), txfField[1].getText()
 					,txfField[2].getText(), txfField[3].getText(), txfField[4].getText(),
@@ -371,11 +370,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			if (userType.equals(LoginGUI.UserType.PATHFINDER)) {
 				btnAdd.setVisible(true);
 				btnDelete.setVisible(true);
-				btnModify.setVisible(true);
 			} else {
 				btnAdd.setVisible(false);
 				btnDelete.setVisible(false);
-				btnModify.setVisible(false);
 			}
 
 			setVisible(true);

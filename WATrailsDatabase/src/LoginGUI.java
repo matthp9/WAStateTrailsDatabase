@@ -29,6 +29,7 @@ public class LoginGUI extends JFrame {
 
     public LoginGUI() {
         setSize(new Dimension(500, 300));
+        setLayout(new GridLayout());
         userType = UserType.NONE;
 
         addComponents();
