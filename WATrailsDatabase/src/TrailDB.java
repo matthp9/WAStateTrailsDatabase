@@ -15,13 +15,11 @@ import java.util.Properties;
  */
 
 public class TrailDB {
-	private static String userName = "jinito"; // CHANGE TO YOURS
-	private static String password = "Ialmostgothaxed111111"; // CHANGE TO YOURS
-	//private static String serverName = "cssgate.insttech.washington.edu";
+	private static String userName = "root"; // CHANGE TO YOURS
+	private static String password = "atbx-143-!$#-"; // CHANGE TO YOURS
 	private static String serverName = "localhost:3306";
 	private static Connection conn;
 	private List<Trail> list;
-
 
 	public static void createConnection() throws SQLException {
 		Properties connectionProps = new Properties();
@@ -33,7 +31,6 @@ public class TrailDB {
 
 		System.out.println("Connected to database");
 	}
-
 
 	public List<Trail> getTrail() throws SQLException {
 		if (conn == null) {

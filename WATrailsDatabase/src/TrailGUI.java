@@ -167,13 +167,12 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		// Modify Panel
 		pnlModify = new JPanel();
-		pnlModify.setLayout(new GridLayout(4,2));
-		lblTitleModify = new JLabel("Enter Trail Row Number to Modify:");
-		lblTitleModify1 = new JLabel("Enter Column Name to modify:");
-		lblTitleModify2 = new JLabel("Enter new value:");
-		txfTitleModify = new JTextField(100);
-		txfTitleModify1 = new JTextField(100);
-		txfTitleModify2 = new JTextField(100);
+		lblTitleModify = new JLabel("Enter Trail Row Number to Modify");
+		lblTitleModify1 = new JLabel("Enter Column Name to modify");
+		lblTitleModify2 = new JLabel("Enter new value");
+		txfTitleModify = new JTextField(25);
+		txfTitleModify1 = new JTextField(25);
+		txfTitleModify2 = new JTextField(25);
 		btnTitleModify = new JButton("Modify");
 		btnTitleModify.addActionListener(this);
 		pnlModify.add(lblTitleModify);
