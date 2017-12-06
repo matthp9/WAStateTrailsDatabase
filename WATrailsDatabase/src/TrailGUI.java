@@ -95,9 +95,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			data = new Object[list.size()][columnNames.length];
 			for (int i=0; i<list.size(); i++) {
 				data[i][0] = list.get(i).getName();
-				data[i][1] = list.get(i).getLocation();
-				data[i][2] = list.get(i).getLength();
-				data[i][3] = list.get(i).getElevation();
+				data[i][1] = list.get(i).getLoc();
+				data[i][2] = list.get(i).getLen();
+				data[i][3] = list.get(i).getElev();
 				data[i][4] = list.get(i).getDog();
 				data[i][5] = list.get(i).getKid();
 				data[i][6] = list.get(i).getCamp();
@@ -302,9 +302,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			data = new Object[list.size()][columnNames.length];
 			for (int i=0; i<list.size(); i++) {
 				data[i][0] = list.get(i).getName();
-				data[i][1] = list.get(i).getLocation();
-				data[i][2] = list.get(i).getLength();
-				data[i][3] = list.get(i).getElevation();
+				data[i][1] = list.get(i).getLoc();
+				data[i][2] = list.get(i).getLen();
+				data[i][3] = list.get(i).getElev();
 				data[i][4] = list.get(i).getDog();
 				data[i][5] = list.get(i).getKid();
 				data[i][6] = list.get(i).getCamp();
@@ -368,9 +368,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				data = new Object[list.size()][columnNames.length];
 				for (int i=0; i<list.size(); i++) {
 					data[i][0] = list.get(i).getName();
-					data[i][1] = list.get(i).getLocation();
-					data[i][2] = list.get(i).getLength();
-					data[i][3] = list.get(i).getElevation();
+					data[i][1] = list.get(i).getLoc();
+					data[i][2] = list.get(i).getLen();
+					data[i][3] = list.get(i).getElev();
 					data[i][4] = list.get(i).getDog();
 					data[i][5] = list.get(i).getKid();
 					data[i][6] = list.get(i).getCamp();
@@ -384,9 +384,13 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				this.repaint();
 			}
 		} else if (e.getSource() == btnAddTrail) {
-			Trail trail = new Trail(txfField[0].getText(), txfField[1].getText()
-					,txfField[2].getText(), txfField[3].getText(), txfField[4].getText(),
-					txfField[5].getText(), txfField[6].getText() );
+			int hasCampsites = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
+			int kidFriendly = (addTrailKidField.getText().equals("y")) ? 1 : 0;
+			int dogFriendly = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
+			Trail trail = new Trail( addTrailNameField.getText(),  addTrailLocationField.getText(),
+			 Float.parseFloat(addTrailLengthField.getText()),  Float.parseFloat(addTrailRatingField.getText()),
+			 Integer.parseInt(addTrailElevationField.getText()), hasCampsites,
+			 kidFriendly,  dogFriendly);
 			db.addTrail(trail);
 			JOptionPane.showMessageDialog(null, "Added Successfully!");
 			for (int i=0; i<txfField.length; i++) {
