@@ -63,7 +63,23 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JTextField txfTitleDelete;
 	private JButton btnTitleDelete;
 
-
+	// Adding a trail
+	private JLabel addTrailNameLabel;
+	private JTextField addTrailNameField;
+	private JLabel addTrailLocationLabel;
+	private JTextField addTrailLocationField;
+	private JLabel addTrailLengthLabel;
+	private JTextField addTrailLengthField;
+	private JLabel addTrailRatingLabel;
+	private JTextField addTrailRatingField;
+	private JLabel addTrailElevationLabel;
+	private JTextField addTrailElevationField;
+	private JLabel addTrailCampsitesLabel;
+	private JTextField addTrailCampsitesField;
+	private JLabel addTrailKidLabel;
+	private JTextField addTrailKidField;
+	private JLabel addTrailDogLabel;
+	private JTextField addTrailDogField;
 
 	/**
 	 * Creates the frame and components and launches the GUI.
@@ -92,7 +108,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		{
 			e.printStackTrace();
 		}
-		setSize(1000, 700);
+		setPreferredSize(new Dimension(1000, 750));
 		createComponents();
 		pack();
 		setLocationRelativeTo(null);
@@ -191,16 +207,57 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		
 		//Add Panel
 		pnlAdd = new JPanel();
-		pnlAdd.setLayout(new GridLayout(8, 0));
-		String labelNames[] = {"Enter Name: ", "Enter Location: ", "Enter Length (miles): ", "Enter Elevation (ft): ",
+		pnlAdd.setLayout(new GridLayout(18, 1));
+		String labelNames[] = {"Enter Elevation (ft): ",
 				"Dog Friendly: ", "Kid Friendly: ", "Established Campsites: "};
 
-		for (int j = 0; j < labelNames.length; j++){
-			txfLabel[j] = new JLabel(labelNames[j], JLabel.LEFT);
-			txfField[j] = new JTextField(25);
-			pnlAdd.add(txfLabel[j]);
-			pnlAdd.add(txfField[j]);
-		}
+		// Trail name components.
+		addTrailNameLabel = new JLabel("Trail Name: ", JLabel.LEFT);
+		pnlAdd.add(addTrailNameLabel);
+		addTrailNameField = new JTextField(25);
+		pnlAdd.add(addTrailNameField);
+
+		// Trail location components.
+		addTrailLocationLabel = new JLabel("Enter Location: ", JLabel.LEFT);
+		pnlAdd.add(addTrailLocationLabel);
+		addTrailLocationField = new JTextField(25);
+		pnlAdd.add(addTrailLocationField);
+
+		// Trail length components.
+		addTrailLengthLabel = new JLabel("Enter Length (miles): ", JLabel.LEFT);
+		pnlAdd.add(addTrailLengthLabel);
+		addTrailLengthField = new JTextField(25);
+		pnlAdd.add(addTrailLengthField);
+
+		// Trail rating components.
+		addTrailRatingLabel = new JLabel("Enter Rating (stars): ", JLabel.LEFT);
+		pnlAdd.add(addTrailRatingLabel);
+		addTrailRatingField = new JTextField(25);
+		pnlAdd.add(addTrailRatingField);
+
+		// Trail elevation components.
+		addTrailElevationLabel = new JLabel("Enter elevation gain (ft): ", JLabel.LEFT);
+		pnlAdd.add(addTrailElevationLabel);
+		addTrailElevationField = new JTextField(25);
+		pnlAdd.add(addTrailElevationField);
+
+		// Trail campsites components.
+		addTrailCampsitesLabel = new JLabel("Does the trail have campsites? (y/n): ", JLabel.LEFT);
+		pnlAdd.add(addTrailCampsitesLabel);
+		addTrailCampsitesField = new JTextField(25);
+		pnlAdd.add(addTrailCampsitesField);
+
+		// Trail kid friendly components.
+		addTrailKidLabel = new JLabel("Is it kid friendly? (y/n): ", JLabel.LEFT);
+		pnlAdd.add(addTrailKidLabel);
+		addTrailKidField = new JTextField(25);
+		pnlAdd.add(addTrailKidField);
+
+		// Trail dog friendly components.
+		addTrailDogLabel = new JLabel("Is it dog friendly? (y/n): ", JLabel.LEFT);
+		pnlAdd.add(addTrailDogLabel);
+		addTrailDogField = new JTextField(25);
+		pnlAdd.add(addTrailDogField);
 
 		JPanel panel = new JPanel();
 		btnAddTrail = new JButton("Add");
