@@ -1,12 +1,12 @@
-import util.DatabaseUtils;
+package WATrailsDatabase.src;
+
+import WATrailsDatabase.src.util.DatabaseUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-
-import static javax.swing.SwingConstants.CENTER;
 
 /**
  * A login frame for choosing user type.
@@ -15,8 +15,8 @@ import static javax.swing.SwingConstants.CENTER;
 public class LoginGUI extends JFrame {
 
     private static final Connection conn = new DatabaseUtils(
-            "root",
-            "atbx-143-!$#-",
+            "bsands2",
+            "password",
             "localhost:3306"
     ).createConnection();
 

@@ -1,4 +1,4 @@
-USE trails;
+USE prod;
 
 /*
 DROP TABLE HikerCategory;

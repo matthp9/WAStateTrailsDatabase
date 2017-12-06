@@ -1,3 +1,5 @@
+package WATrailsDatabase.src;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +45,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JLabel lblTitle;;
 	private JTextField txfTitle;
 	private JButton btnTitleSearch;
-	
+
 	private JPanel pnlUpdate;
 	private JLabel txfLabelUpdateFeature;
 	private JTextField txfUpdateFeature;
@@ -63,7 +65,23 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JTextField txfTitleDelete;
 	private JButton btnTitleDelete;
 
+	// Adding a trail
+	private JLabel addTrailNameLabel;
+	private JTextField addTrailNameField;
+	private JLabel addTrailLocationLabel;
+	private JTextField addTrailLocationField;
+	private JLabel addTrailLengthLabel;
+	private JTextField addTrailLengthField;
+	private JLabel addTrailRatingLabel;
+	private JTextField addTrailRatingField;
+	private JLabel addTrailElevationLabel;
+	private JTextField addTrailElevationField;
+	private JLabel addTrailCampsitesLabel;
+	private JTextField addTrailCampsitesField;
 
+	// Adding a Policy
+	private JLabel addPolicyNameLabel;
+	private JTextField addPolicyNameField;
 
 	/**
 	 * Creates the frame and components and launches the GUI.
@@ -79,11 +97,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			data = new Object[list.size()][columnNames.length];
 			for (int i=0; i<list.size(); i++) {
 				data[i][0] = list.get(i).getName();
-				data[i][1] = list.get(i).getLocation();
-				data[i][2] = list.get(i).getLength();
-				data[i][3] = list.get(i).getElevation();
-				data[i][4] = list.get(i).getDog();
-				data[i][5] = list.get(i).getKid();
+				data[i][1] = list.get(i).getLoc();
+				data[i][2] = list.get(i).getLen();
+				data[i][3] = list.get(i).getElev();
 				data[i][6] = list.get(i).getCamp();
 
 			}
@@ -92,7 +108,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		{
 			e.printStackTrace();
 		}
-		setSize(1000, 700);
+		setPreferredSize(new Dimension(1000, 750));
 		createComponents();
 		pack();
 		setLocationRelativeTo(null);
@@ -124,7 +140,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		btnDelete = createCustomButton("Delete Trail", removeColor);
 		btnDelete.addActionListener(this);
-		
+
 		btnUpdate = createCustomButton("Update Trail", updateColor);
 		btnUpdate.addActionListener(this);
 
@@ -166,10 +182,10 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlDelete.add(btnTitleDelete);
 		pnlDelete.setBackground(removeColor);
 		btnTitleDelete.addActionListener(this);
-		
+
 		//Update Panel
 		pnlUpdate = new JPanel();
-		pnlUpdate.setLayout(new GridLayout(5, 0));	
+		pnlUpdate.setLayout(new GridLayout(5, 0));
 		txfLabelUpdateFeature = new JLabel("Enter Column Name: ");
 		txfUpdateFeature = new JTextField(25);
 		txfLabelUpdateName = new JLabel("Enter Trail Name: ");
@@ -183,31 +199,66 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlUpdate.add(txfUpdateName);
 		pnlUpdate.add(txfLabelUpdateUpdate);
 		pnlUpdate.add(txfUpdateUpdate);
-		
+
 		JPanel updateBtnPanel = new JPanel();
 		updateBtnPanel.add(btnTitleUpdate, BorderLayout.CENTER);
 		pnlUpdate.add(updateBtnPanel);
 		btnTitleUpdate.addActionListener(this);
-		
+
 		//Add Panel
 		pnlAdd = new JPanel();
-		pnlAdd.setLayout(new GridLayout(8, 0));
-		String labelNames[] = {"Enter Name: ", "Enter Location: ", "Enter Length (miles): ", "Enter Elevation (ft): ",
+		pnlAdd.setLayout(new GridLayout(18, 1));
+		String labelNames[] = {"Enter Elevation (ft): ",
 				"Dog Friendly: ", "Kid Friendly: ", "Established Campsites: "};
 
-		for (int j = 0; j < labelNames.length; j++){
-			txfLabel[j] = new JLabel(labelNames[j], JLabel.LEFT);
-			txfField[j] = new JTextField(25);
-			pnlAdd.add(txfLabel[j]);
-			pnlAdd.add(txfField[j]);
-		}
+		// Trail name components.
+		addTrailNameLabel = new JLabel("Trail Name: ", JLabel.LEFT);
+		pnlAdd.add(addTrailNameLabel);
+		addTrailNameField = new JTextField(25);
+		pnlAdd.add(addTrailNameField);
+
+		// Trail location components.
+		addTrailLocationLabel = new JLabel("Enter Location: ", JLabel.LEFT);
+		pnlAdd.add(addTrailLocationLabel);
+		addTrailLocationField = new JTextField(25);
+		pnlAdd.add(addTrailLocationField);
+
+		// Trail length components.
+		addTrailLengthLabel = new JLabel("Enter Length (miles): ", JLabel.LEFT);
+		pnlAdd.add(addTrailLengthLabel);
+		addTrailLengthField = new JTextField(25);
+		pnlAdd.add(addTrailLengthField);
+
+		// Trail rating components.
+		addTrailRatingLabel = new JLabel("Enter Rating (stars): ", JLabel.LEFT);
+		pnlAdd.add(addTrailRatingLabel);
+		addTrailRatingField = new JTextField(25);
+		pnlAdd.add(addTrailRatingField);
+
+		// Trail elevation components.
+		addTrailElevationLabel = new JLabel("Enter elevation gain (ft): ", JLabel.LEFT);
+		pnlAdd.add(addTrailElevationLabel);
+		addTrailElevationField = new JTextField(25);
+		pnlAdd.add(addTrailElevationField);
+
+		// Trail campsites components.
+		addTrailCampsitesLabel = new JLabel("Does the trail have campsites? (y/n): ", JLabel.LEFT);
+		pnlAdd.add(addTrailCampsitesLabel);
+		addTrailCampsitesField = new JTextField(25);
+		pnlAdd.add(addTrailCampsitesField);
+
+		// Policy add or use.
+		addPolicyNameLabel = new JLabel("Add policy or use existing: ", JLabel.LEFT);
+		pnlAdd.add(addPolicyNameLabel);
+		addPolicyNameField = new JTextField(40);
+		pnlAdd.add(addPolicyNameField);
 
 		JPanel panel = new JPanel();
 		btnAddTrail = new JButton("Add");
 		btnAddTrail.addActionListener(this);
 		panel.add(btnAddTrail);
-		pnlAdd.add(panel);		
-		
+		pnlAdd.add(panel);
+
 		add(pnlContent, BorderLayout.CENTER);
 		setTableSize();
 	}
@@ -245,11 +296,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			data = new Object[list.size()][columnNames.length];
 			for (int i=0; i<list.size(); i++) {
 				data[i][0] = list.get(i).getName();
-				data[i][1] = list.get(i).getLocation();
-				data[i][2] = list.get(i).getLength();
-				data[i][3] = list.get(i).getElevation();
-				data[i][4] = list.get(i).getDog();
-				data[i][5] = list.get(i).getKid();
+				data[i][1] = list.get(i).getLoc();
+				data[i][2] = list.get(i).getLen();
+				data[i][3] = list.get(i).getElev();
 				data[i][6] = list.get(i).getCamp();
 			}
 			pnlContent.removeAll();
@@ -271,26 +320,26 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			pnlContent.add(pnlDelete);
 			pnlContent.revalidate();
 			this.repaint();
-			
+
 		} else if (e.getSource() == btnUpdate) {
 
 			pnlContent.removeAll();
 			pnlContent.add(pnlUpdate);
 			pnlContent.revalidate();
 			this.repaint();
-			
+
 		} else if (e.getSource() == btnAdd) {
 			pnlContent.removeAll();
 			pnlContent.add(pnlAdd);
 			pnlContent.revalidate();
 			this.repaint();
-			
-		} else if (e.getSource() == btnTitleUpdate) {	
-			
+
+		} else if (e.getSource() == btnTitleUpdate) {
+
 			String update = txfUpdateFeature.getText();
 			String name = txfUpdateName.getText();
 			String columnName = txfUpdateUpdate.getText();
-			
+
 			if (name.length() > 0) {
 				db.modifyTrail(update, columnName, name);
 				JOptionPane.showMessageDialog(null, "Updated Successfully!");
@@ -311,11 +360,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				data = new Object[list.size()][columnNames.length];
 				for (int i=0; i<list.size(); i++) {
 					data[i][0] = list.get(i).getName();
-					data[i][1] = list.get(i).getLocation();
-					data[i][2] = list.get(i).getLength();
-					data[i][3] = list.get(i).getElevation();
-					data[i][4] = list.get(i).getDog();
-					data[i][5] = list.get(i).getKid();
+					data[i][1] = list.get(i).getLoc();
+					data[i][2] = list.get(i).getLen();
+					data[i][3] = list.get(i).getElev();
 					data[i][6] = list.get(i).getCamp();
 				}
 				pnlContent.removeAll();
@@ -327,14 +374,15 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				this.repaint();
 			}
 		} else if (e.getSource() == btnAddTrail) {
-			Trail trail = new Trail(txfField[0].getText(), txfField[1].getText()
-					,txfField[2].getText(), txfField[3].getText(), txfField[4].getText(),
-					txfField[5].getText(), txfField[6].getText() );
-			db.addTrail(trail);
+/*			int hasCampsites = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
+			Trail trail = new Trail( addTrailNameField.getText(),
+					addTrailLocationField.getText(),
+					Float.parseFloat(addTrailLengthField.getText()),
+					Float.parseFloat(addTrailRatingField.getText()),
+					Integer.parseInt(addTrailElevationField.getText()), hasCampsites,
+					addPolicyNameField.getText());*/
+			//db.addTrail(trail);
 			JOptionPane.showMessageDialog(null, "Added Successfully!");
-			for (int i=0; i<txfField.length; i++) {
-				txfField[i].setText("");
-			}
 		}
 
 		setTableSize();

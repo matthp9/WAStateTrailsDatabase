@@ -1,0 +1,9 @@
+use prod;
+
+INSERT INTO trail (trailName, locationId, rating, length, elevationGain, hasCampsites) VALUES
+  ('Adventure Trail', 1, 5, 300.00, 1000, 0);
+
+INSERT INTO trail (trailName, locationId, rating, length, elevationGain, hasCampsites) VALUES
+  ('Ala Spit', null, 5.0, 10, 600, 0);
+
+INSERT INTO location (description) VALUES ('Issaquah Alps -- Tiger Mountain');
