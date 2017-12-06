@@ -15,9 +15,9 @@ import java.util.Properties;
  */
 
 public class TrailDB {
-	private static String userName = "USERNAME"; // CHANGE TO YOURS
-	private static String password = "PASSWORD"; // CHANGE TO YOURS
-	private static String serverName = "cssgate.insttech.washington.edu";
+	private static String userName = "jinitokazama"; // CHANGE TO YOURS
+	private static String password = "Ialmostgothaxed111111"; // CHANGE TO YOURS
+	private static String serverName = "localhost:3306";
 	private static Connection conn;
 	private List<Trail> list;
 
@@ -40,7 +40,7 @@ public class TrailDB {
 		Statement stmt = null;
 		String query = "select trail_name, trail_location, trail_length, trail_elevation, "
 				+ "dog_friendly, kid_friendly, established_campsites "
-				+ "from USERNAME.Trail ";
+				+ "from trails.Trail ";
 
 		list = new ArrayList<Trail>();
 		try {

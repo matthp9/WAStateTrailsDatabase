@@ -1,3 +1,4 @@
+CREATE DATABASE prod;
 USE prod;
 
 DROP TABLE IF EXISTS `Trail`;

@@ -1,3 +1,4 @@
+CREATE DATABASE trails;
 USE trails;
 DROP TABLE IF EXISTS Trail;
 

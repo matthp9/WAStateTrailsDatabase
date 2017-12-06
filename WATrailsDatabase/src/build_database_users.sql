@@ -1,3 +1,4 @@
+CREATE DATABASE trails;
 USE trails;
 
 /*
@@ -7,7 +8,7 @@ DROP TABLE PathFinder;
 */
 
 CREATE TABLE Hiker (
-  hikerId INT,
+  hikerId INT NOT NULL AUTO_INCREMENT,
   pathFinderId INT,
   hikerCategoryId INT,
   name VARCHAR(50),
