@@ -15,12 +15,11 @@ import java.util.Properties;
  */
 
 public class TrailDB {
-	private static String userName = "bsands2"; // CHANGE TO YOURS
-	private static String password = "password"; // CHANGE TO YOURS
-	private static String serverName = "localhost:3306";
+	private static String userName = "USERNAME"; // CHANGE TO YOURS
+	private static String password = "PASSWORD"; // CHANGE TO YOURS
+	private static String serverName = "cssgate.insttech.washington.edu";
 	private static Connection conn;
 	private List<Trail> list;
-
 
 	public static void createConnection() throws SQLException {
 		Properties connectionProps = new Properties();
@@ -32,7 +31,7 @@ public class TrailDB {
 
 		System.out.println("Connected to database");
 	}
-
+	
 
 	public List<Trail> getTrail() throws SQLException {
 		if (conn == null) {
@@ -41,7 +40,7 @@ public class TrailDB {
 		Statement stmt = null;
 		String query = "select trail_name, trail_location, trail_length, trail_elevation, "
 				+ "dog_friendly, kid_friendly, established_campsites "
-				+ "from trails.Trail ";
+				+ "from USERNAME.Trail ";
 
 		list = new ArrayList<Trail>();
 		try {
@@ -56,7 +55,7 @@ public class TrailDB {
 				String kid_friendly = rs.getString("kid_friendly");
 				String established_campsites = rs.getString("established_campsites");
 				Trail trail = new Trail(trail_name, trail_location, trail_length, trail_elevation,
-						dog_friendly, kid_friendly, established_campsites);
+										dog_friendly, kid_friendly, established_campsites);
 				list.add(trail);
 			}
 		} catch (SQLException e) {
@@ -71,8 +70,8 @@ public class TrailDB {
 
 
 	public List<Trail> getTrail(String trail_name) {
-
-
+		
+		
 		List<Trail> filterList = new ArrayList<Trail>();
 		try {
 			list = getTrail();
@@ -89,7 +88,7 @@ public class TrailDB {
 
 
 	public void addTrail(Trail trail) {
-		String sql = "insert into trails.Trail values " + "(?, ?, ?, ?, ?, ?, ?); ";
+		String sql = "insert into USERNAME.Trail values " + "(?, ?, ?, ?, ?, ?, ?); ";
 
 		PreparedStatement preparedStatement = null;
 		try {
@@ -106,36 +105,53 @@ public class TrailDB {
 		} catch (SQLException e) {
 			System.out.println(e);
 			e.printStackTrace();
-//			System.out.println("Didn't work");
-		}
+		} 
 	}
-
+	
 	public void deleteTrail(String name) {
-		String sql = "delete from trails.Trail where trail_name = ? " ;
-
+		String sql = "delete from USERNAME.Trail where trail_name = ? " ;
+		
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, name);
-
+			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e);
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void modifyTrail(String columnName, String update, String trailName) {
+		
+		String sql = "update USERNAME.Trail set " + columnName + " = ?  where trail_name = ?";
+		PreparedStatement preparedStatement = null;
+		
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			
+			preparedStatement.setString(1, update);
+			preparedStatement.setString(2, trailName);
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+	}
+	
 
 	public void updateTrail(int row, String columnName, Object data) {
-
 		Trail trail = list.get(row);
 		String name = trail.getName();
 		String location = trail.getLocation();
-		String sql = "update USERNAME.Trail set " + columnName + " = ?  where trail_name = ? and trail_location = ? ";
+		String sql = "UPDATE trails.trail SET " + columnName + " = ?  WHERE trail_name = ? AND trail_location = ? ";
 		System.out.println(sql);
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = conn.prepareStatement(sql);
+
 			if (data instanceof String)
 				preparedStatement.setString(1, (String) data);
 			preparedStatement.setString(2, name);
@@ -147,24 +163,5 @@ public class TrailDB {
 			e.printStackTrace();
 		}
 
-	}
-
-	public void checkUserNames(String name) {
-		String sql = "select name from trails.Hiker where name = ? " ;
-
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, name);
-
-			if(preparedStatement.executeQuery().next()) {
-				System.out.println("yes");
-			} else {
-				System.out.println("no");
-			}
-		} catch (SQLException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
 	}
 }
