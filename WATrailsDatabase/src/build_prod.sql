@@ -10,10 +10,11 @@ CREATE TABLE Trail (
   trailId INT AUTO_INCREMENT NOT NULL,
   trailName VARCHAR(64) NOT NULL,
   locationId INT,
+  policyId INT,
   rating FLOAT,
   length FLOAT,
   elevationGain FLOAT,
-  hasCampsites BIT(1),
+  hasCampsites INT,
   PRIMARY KEY (trailId)
 );
 
@@ -30,9 +31,20 @@ CREATE TABLE Location (
   PRIMARY KEY (locationId)
 );
 
+CREATE TABLE PolicyMapping (
+  mappingId INT AUTO_INCREMENT NOT NULL,
+  trailId INT,
+  policyId INT,
+  PRIMARY KEY (mappingId)
+);
+
 CREATE TABLE Policy (
   policyId INT AUTO_INCREMENT NOT NULL,
-  kidFriendly BIT(1),
-  dogFriendly BIT(1),
+  description VARCHAR(128),
   PRIMARY KEY (policyId)
 );
+
+
+INSERT INTO Policy(description)
+    VALUES ("Dog Friendly"),
+      ("Kid Friendly");

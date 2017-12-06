@@ -76,10 +76,10 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JTextField addTrailElevationField;
 	private JLabel addTrailCampsitesLabel;
 	private JTextField addTrailCampsitesField;
-	private JLabel addTrailKidLabel;
-	private JTextField addTrailKidField;
-	private JLabel addTrailDogLabel;
-	private JTextField addTrailDogField;
+
+	// Adding a Policy
+	private JLabel addPolicyNameLabel;
+	private JTextField addPolicyNameField;
 
 	/**
 	 * Creates the frame and components and launches the GUI.
@@ -98,8 +98,6 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				data[i][1] = list.get(i).getLoc();
 				data[i][2] = list.get(i).getLen();
 				data[i][3] = list.get(i).getElev();
-				data[i][4] = list.get(i).getDog();
-				data[i][5] = list.get(i).getKid();
 				data[i][6] = list.get(i).getCamp();
 
 			}
@@ -247,17 +245,11 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		addTrailCampsitesField = new JTextField(25);
 		pnlAdd.add(addTrailCampsitesField);
 
-		// Trail kid friendly components.
-		addTrailKidLabel = new JLabel("Is it kid friendly? (y/n): ", JLabel.LEFT);
-		pnlAdd.add(addTrailKidLabel);
-		addTrailKidField = new JTextField(25);
-		pnlAdd.add(addTrailKidField);
-
-		// Trail dog friendly components.
-		addTrailDogLabel = new JLabel("Is it dog friendly? (y/n): ", JLabel.LEFT);
-		pnlAdd.add(addTrailDogLabel);
-		addTrailDogField = new JTextField(25);
-		pnlAdd.add(addTrailDogField);
+		// Policy add or use.
+		addPolicyNameLabel = new JLabel("Add policy or use existing: ", JLabel.LEFT);
+		pnlAdd.add(addPolicyNameLabel);
+		addPolicyNameField = new JTextField(40);
+		pnlAdd.add(addPolicyNameField);
 
 		JPanel panel = new JPanel();
 		btnAddTrail = new JButton("Add");
@@ -305,8 +297,6 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				data[i][1] = list.get(i).getLoc();
 				data[i][2] = list.get(i).getLen();
 				data[i][3] = list.get(i).getElev();
-				data[i][4] = list.get(i).getDog();
-				data[i][5] = list.get(i).getKid();
 				data[i][6] = list.get(i).getCamp();
 			}
 			pnlContent.removeAll();
@@ -371,8 +361,6 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 					data[i][1] = list.get(i).getLoc();
 					data[i][2] = list.get(i).getLen();
 					data[i][3] = list.get(i).getElev();
-					data[i][4] = list.get(i).getDog();
-					data[i][5] = list.get(i).getKid();
 					data[i][6] = list.get(i).getCamp();
 				}
 				pnlContent.removeAll();
@@ -385,17 +373,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			}
 		} else if (e.getSource() == btnAddTrail) {
 			int hasCampsites = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
-			int kidFriendly = (addTrailKidField.getText().equals("y")) ? 1 : 0;
-			int dogFriendly = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
-			Trail trail = new Trail( addTrailNameField.getText(),  addTrailLocationField.getText(),
-			 Float.parseFloat(addTrailLengthField.getText()),  Float.parseFloat(addTrailRatingField.getText()),
+			Trail trail = new Trail( addTrailNameField.getText(),
+					addTrailLocationField.getText(),
+			 Float.parseFloat(addTrailLengthField.getText()),
+					Float.parseFloat(addTrailRatingField.getText()),
 			 Integer.parseInt(addTrailElevationField.getText()), hasCampsites,
-			 kidFriendly,  dogFriendly);
+			 addPolicyNameField.getText());
 			db.addTrail(trail);
 			JOptionPane.showMessageDialog(null, "Added Successfully!");
-			for (int i=0; i<txfField.length; i++) {
-				txfField[i].setText("");
-			}
 		}
 
 		setTableSize();
