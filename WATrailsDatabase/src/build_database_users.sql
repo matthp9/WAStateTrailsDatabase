@@ -1,10 +1,8 @@
 USE prod;
 
-/*
-DROP TABLE HikerCategory;
-DROP TABLE  Hiker;
-DROP TABLE PathFinder;
-*/
+DROP TABLE IF EXISTS `HikerCategory`;
+DROP TABLE IF EXISTS `Hiker`;
+DROP TABLE IF EXISTS `PathFinder`;
 
 CREATE TABLE Hiker (
   hikerId INT,

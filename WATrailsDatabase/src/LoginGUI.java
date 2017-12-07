@@ -11,8 +11,8 @@ import java.sql.*;
 public class LoginGUI extends JFrame {
 
     private static final Connection conn = new DatabaseUtils(
-            "bsands2",
-            "password",
+            "root",
+            "atbx-143-!$#-",
             "localhost:3306"
     ).createConnection();
 
@@ -99,10 +99,10 @@ public class LoginGUI extends JFrame {
         String query = null;
         if (userType.equals(UserType.PATHFINDER)) {
             query = "select p.pathFinderId from trails.PathFinder p"
-                    + " join trails.Hiker h on p.hikerId = h.hikerId"
+                    + " join prod.Hiker h on p.hikerId = h.hikerId"
                     + " where name = ?";
         } else {
-            query = "select name from trails.Hiker where name = ?";
+            query = "select name from prod.Hiker where name = ?";
         }
 
         try {

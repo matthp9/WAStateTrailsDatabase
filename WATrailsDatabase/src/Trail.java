@@ -5,24 +5,24 @@
  */
 public class Trail {
 
-	private String name, loc;
+	private String name;
+	private String loc;
+	private String policy;
 	private float len, rating;
-	private int elev, kid, dog, camp;
+	private int elev, camp;
 
 	public Trail(String addTrailNameLabel, String addTrailLocationLabel,
 				 float addTrailLengthLabel, float addTrailRatingLabel,
 				 int addTrailElevationLabel, int addTrailCampsitesLabel,
-				 int addTrailKidLabel, int addTrailDogLabel) {
+				 String addPolicyNameLabel) {
 
 		name = addTrailNameLabel;
 		loc = addTrailLocationLabel;
-		kid = addTrailKidLabel;
-		dog = addTrailDogLabel;
+		policy = addPolicyNameLabel;
 		camp = addTrailCampsitesLabel;
 		len = addTrailLengthLabel;
 		rating = addTrailRatingLabel;
 		elev = addTrailElevationLabel;
-
 	}
 
 	public String getName() {
@@ -65,22 +65,6 @@ public class Trail {
 		this.elev = elev;
 	}
 
-	public int getKid() {
-		return kid;
-	}
-
-	public void setKid(int kid) {
-		this.kid = kid;
-	}
-
-	public int getDog() {
-		return dog;
-	}
-
-	public void setDog(int dog) {
-		this.dog = dog;
-	}
-
 	public int getCamp() {
 		return camp;
 	}
@@ -88,4 +72,13 @@ public class Trail {
 	public void setCamp(int camp) {
 		this.camp = camp;
 	}
+
+	public String getPolicy() {
+		return policy;
+	}
+
+	public void setPolicy(String policy) {
+		this.policy = policy;
+	}
+
 }

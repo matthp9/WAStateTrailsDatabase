@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -91,6 +92,9 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		try
 		{
 			list = db.getTrail();
+			if (list == null) {
+				list = new ArrayList<>();
+			}
 
 			data = new Object[list.size()][columnNames.length];
 			for (int i=0; i<list.size(); i++) {
@@ -102,7 +106,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 			}
 
-		} catch (SQLException e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -287,10 +291,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		if (e.getSource() == btnList) {
 			try {
 				list = db.getTrail();
-			} catch (SQLException e1) {
+			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+
+			// Defensive check.
+			if (list == null) list = new ArrayList<>();
+
 			data = new Object[list.size()][columnNames.length];
 			for (int i=0; i<list.size(); i++) {
 				data[i][0] = list.get(i).getName();
@@ -354,7 +362,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		} else if (e.getSource() == btnTitleSearch) {
 			String name = txfTitle.getText();
 			if (name.length() > 0) {
-				list = db.getTrail(name);
+				list = db.getTrail();
 				data = new Object[list.size()][columnNames.length];
 				for (int i=0; i<list.size(); i++) {
 					data[i][0] = list.get(i).getName();
@@ -372,14 +380,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				this.repaint();
 			}
 		} else if (e.getSource() == btnAddTrail) {
-/*			int hasCampsites = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
+			int hasCampsites = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
 			Trail trail = new Trail( addTrailNameField.getText(),
 					addTrailLocationField.getText(),
 					Float.parseFloat(addTrailLengthField.getText()),
 					Float.parseFloat(addTrailRatingField.getText()),
 					Integer.parseInt(addTrailElevationField.getText()), hasCampsites,
-					addPolicyNameField.getText());*/
-			//db.addTrail(trail);
+					addPolicyNameField.getText());
+			db.addTrail(trail);
 			JOptionPane.showMessageDialog(null, "Added Successfully!");
 		}
 
