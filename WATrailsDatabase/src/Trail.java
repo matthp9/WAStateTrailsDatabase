@@ -1,7 +1,6 @@
 /**
- * Represents a movie with a title, year, length, genre, and studio name.
- * @author mmuppa
- *
+ * Representative object for our database entity.
+ * @author Jin Byoun
  */
 public class Trail {
 
@@ -29,56 +28,25 @@ public class Trail {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getLoc() {
 		return loc;
-	}
-
-	public void setLoc(String loc) {
-		this.loc = loc;
 	}
 
 	public float getLen() {
 		return len;
 	}
 
-	public void setLen(float len) {
-		this.len = len;
-	}
-
 	public float getRating() {
 		return rating;
-	}
-
-	public void setRating(float rating) {
-		this.rating = rating;
 	}
 
 	public int getElev() {
 		return elev;
 	}
 
-	public void setElev(int elev) {
-		this.elev = elev;
-	}
-
 	public int getCamp() {
 		return camp;
 	}
 
-	public void setCamp(int camp) {
-		this.camp = camp;
-	}
-
-	public String getPolicy() {
-		return policy;
-	}
-
-	public void setPolicy(String policy) {
-		this.policy = policy;
-	}
-
+	public String getPolicy() { return policy; }
 }

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * A class that consists of the database operations to insert and update the Movie information.
- * @author mmuppa
- *
+ * Database functionality file for Trails database.
+ * @author mmuppa (default)
+ * @author Hasnah Said
  */
 
 public class TrailDB {
@@ -42,7 +42,7 @@ public class TrailDB {
 		}
 		Statement stmt = null;
 		String query = "select trailName, description, rating, length,\n" +
-				"elevationGain, hasCampsites from prod.Trail t LEFT JOIN prod.Location l " +
+				"elevationGain, hasCampsites, policyId from prod.Trail t LEFT JOIN prod.Location l " +
 				"ON l.locationId = t.locationId";
 
 		list = new ArrayList<Trail>();
@@ -57,8 +57,9 @@ public class TrailDB {
 				float length = Float.parseFloat(rs.getString("length"));
 				int elevationGain = Integer.parseInt(rs.getString("elevationGain"));
 				int hasCampsites = Integer.parseInt(rs.getString("hasCampsites"));
+				String policyId = rs.getString("policyId");
 				Trail trail = new Trail(trailName, trailLocation, length, rating,
-						elevationGain, hasCampsites, "Placeholder");
+						elevationGain, hasCampsites, policyId);
 				list.add(trail);
 			}
 		} catch (SQLException e) {
@@ -83,16 +84,34 @@ public class TrailDB {
 			preparedStatement.setString(1, trail.getPolicy());
 			preparedStatement.executeUpdate();
 
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select LAST_INSERT_ID();");
+			int pId = 0;
+			while (rs.next()) {
+				pId = Integer.parseInt(rs.getString("LAST_INSERT_ID()"));
+			}
+
 			preparedStatement = conn.prepareStatement("insert into prod.Location(description) values (?);");
 			preparedStatement.setString(1, trail.getLoc());
 			preparedStatement.executeUpdate();
 
-			preparedStatement = conn.prepareStatement("insert into prod.Trail(trailName, locationId, rating, length, elevationGain, hasCampsites) values " + "(?, LAST_INSERT_ID(), ?, ?, ?, ?);");
+			preparedStatement = conn.prepareStatement("insert into prod.Trail(trailName, locationId, rating, length, elevationGain, hasCampsites, policyId) values " + "(?, LAST_INSERT_ID(), ?, ?, ?, ?, ?);");
 			preparedStatement.setString(1, trail.getName());
 			preparedStatement.setString(2, "" + trail.getRating());
 			preparedStatement.setString(3, "" + trail.getLen());
 			preparedStatement.setString(4, "" + trail.getElev());
 			preparedStatement.setString(5, "" + trail.getCamp());
+			preparedStatement.setString(6, "" + pId);
+			preparedStatement.executeUpdate();
+
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select LAST_INSERT_ID();");
+			int tId = 0;
+			while (rs.next()) {
+				tId = Integer.parseInt(rs.getString("LAST_INSERT_ID()"));
+			}
+
+			preparedStatement = conn.prepareStatement("insert into prod.PolicyMapping(trailId, policyId) values (" + tId + ", " + pId +");");
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -101,12 +120,12 @@ public class TrailDB {
 	}
 
 	public void deleteTrail(String name) {
-		String sql = "delete from prod.Trail where trail_name = ? " ;
+		String sql = "delete from prod.Trail where trailName = ?; " ;
 
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, name);
+			preparedStatement.setString(1, "" + name);
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -117,7 +136,7 @@ public class TrailDB {
 
 	public void modifyTrail(String columnName, String update, String trailName) {
 
-		String sql = "update prod.Trail set " + columnName + " = ?  where trail_name = ?";
+		String sql = "update prod.Trail set " + columnName + " = ?  where trailName = ?";
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -132,7 +151,6 @@ public class TrailDB {
 			e.printStackTrace();
 		}
 	}
-
 
 	public void updateTrail(int row, String columnName, Object data) {
 		Trail trail = list.get(row);
@@ -155,5 +173,21 @@ public class TrailDB {
 			e.printStackTrace();
 		}
 
+	}
+
+	public List<Trail> getTrailByLocation(String location) {
+		List<Trail> filterList = new ArrayList<Trail>();
+		list = getTrail();
+		for (Trail trail : list) {
+			try {
+				System.out.println(trail.getLoc());
+				if (trail.getLoc().toLowerCase().contains(location.toLowerCase())) {
+					filterList.add(trail);
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		return filterList;
 	}
 }

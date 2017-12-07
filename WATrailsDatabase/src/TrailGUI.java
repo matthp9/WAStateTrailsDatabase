@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -12,11 +11,9 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 /**
- * A user interface to view the movies, add a new movie and to update an existing movie.
- * The list is a table with all the movie information in it. The TableModelListener listens to
- * any changes to the cells to modify the values for reach movie.
- * @author mmuppa
- *
+ * User interface for Trails database.
+ * @author mmuppa (default)
+ * @author Matthew Phillips
  */
 public class TrailGUI extends JFrame implements ActionListener, TableModelListener, PropertyChangeListener
 {
@@ -26,13 +23,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JPanel pnlButtons, pnlContent;
 	private TrailDB db;
 	private List<Trail> list;
-	private String[] columnNames = {"trail_name",
-			"trail_location",
-			"trail_length",
-			"trail_elevation",
-			"dog_friendlly",
-			"kid_friendlly",
-			"established_campsites"};
+	private String[] columnNames = {
+			"trailName",
+			"location",
+			"rating",
+			"length",
+			"elevationGain",
+			"hasCampsites",
+			"policyId"};
 
 	private Object[][] data;
 	private JTable table;
@@ -100,10 +98,11 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			for (int i=0; i<list.size(); i++) {
 				data[i][0] = list.get(i).getName();
 				data[i][1] = list.get(i).getLoc();
-				data[i][2] = list.get(i).getLen();
-				data[i][3] = list.get(i).getElev();
-				data[i][6] = list.get(i).getCamp();
-
+				data[i][2] = list.get(i).getRating();
+				data[i][3] = list.get(i).getLen();
+				data[i][4] = list.get(i).getElev();
+				data[i][5] = list.get(i).getCamp();
+				data[i][6] = list.get(i).getPolicy();
 			}
 
 		} catch (Exception e)
@@ -165,7 +164,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		//Search Panel
 		pnlSearch = new JPanel();
-		lblTitle = new JLabel("Enter Name: ");
+		lblTitle = new JLabel("Enter location to search for trails: ");
 		txfTitle = new JTextField(25);
 		btnTitleSearch = new JButton("Search");
 		btnTitleSearch.addActionListener(this);
@@ -176,7 +175,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		//Delete Panel
 		pnlDelete = new JPanel();
 		pnlDelete.add(new JLabel("Warning: you are about to permanently delete a trail."));
-		lblTitleDelete = new JLabel("Enter Name: ");
+		lblTitleDelete = new JLabel("Enter Trail Name: ");
 		txfTitleDelete = new JTextField(25);
 		btnTitleDelete = new JButton("Delete");
 		pnlDelete.add(lblTitleDelete);
@@ -297,15 +296,19 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			}
 
 			// Defensive check.
-			if (list == null) list = new ArrayList<>();
+			if (list == null) {
+				list = new ArrayList<>();
+			}
 
 			data = new Object[list.size()][columnNames.length];
 			for (int i=0; i<list.size(); i++) {
 				data[i][0] = list.get(i).getName();
 				data[i][1] = list.get(i).getLoc();
-				data[i][2] = list.get(i).getLen();
-				data[i][3] = list.get(i).getElev();
-				data[i][6] = list.get(i).getCamp();
+				data[i][2] = list.get(i).getRating();
+				data[i][3] = list.get(i).getLen();
+				data[i][4] = list.get(i).getElev();
+				data[i][5] = list.get(i).getCamp();
+				data[i][6] = list.get(i).getPolicy();
 			}
 			pnlContent.removeAll();
 			table = new JTable(data, columnNames);
@@ -362,14 +365,16 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		} else if (e.getSource() == btnTitleSearch) {
 			String name = txfTitle.getText();
 			if (name.length() > 0) {
-				list = db.getTrail();
+				list = db.getTrailByLocation(txfTitle.getText());
 				data = new Object[list.size()][columnNames.length];
 				for (int i=0; i<list.size(); i++) {
 					data[i][0] = list.get(i).getName();
 					data[i][1] = list.get(i).getLoc();
-					data[i][2] = list.get(i).getLen();
-					data[i][3] = list.get(i).getElev();
-					data[i][6] = list.get(i).getCamp();
+					data[i][2] = list.get(i).getRating();
+					data[i][3] = list.get(i).getLen();
+					data[i][4] = list.get(i).getElev();
+					data[i][5] = list.get(i).getCamp();
+					data[i][6] = list.get(i).getPolicy();
 				}
 				pnlContent.removeAll();
 				table = new JTable(data, columnNames);

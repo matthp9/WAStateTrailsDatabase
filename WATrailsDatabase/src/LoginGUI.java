@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 /**
- * A login frame for choosing user type.
- * @author Matt Phillips
+ * External login frame for user verification.
+ * @author Bryan Sands
  */
 public class LoginGUI extends JFrame {
 
