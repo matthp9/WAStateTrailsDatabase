@@ -1,4 +1,4 @@
-import javax.swing.*;
+package WATrailsDatabase.src;
 
 /**
  * Represents a movie with a title, year, length, genre, and studio name.

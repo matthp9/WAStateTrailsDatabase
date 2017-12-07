@@ -1,3 +1,5 @@
+package WATrailsDatabase.src;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +45,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JLabel lblTitle;;
 	private JTextField txfTitle;
 	private JButton btnTitleSearch;
-	
+
 	private JPanel pnlUpdate;
 	private JLabel txfLabelUpdateFeature;
 	private JTextField txfUpdateFeature;
@@ -138,7 +140,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 
 		btnDelete = createCustomButton("Delete Trail", removeColor);
 		btnDelete.addActionListener(this);
-		
+
 		btnUpdate = createCustomButton("Update Trail", updateColor);
 		btnUpdate.addActionListener(this);
 
@@ -180,10 +182,10 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlDelete.add(btnTitleDelete);
 		pnlDelete.setBackground(removeColor);
 		btnTitleDelete.addActionListener(this);
-		
+
 		//Update Panel
 		pnlUpdate = new JPanel();
-		pnlUpdate.setLayout(new GridLayout(5, 0));	
+		pnlUpdate.setLayout(new GridLayout(5, 0));
 		txfLabelUpdateFeature = new JLabel("Enter Column Name: ");
 		txfUpdateFeature = new JTextField(25);
 		txfLabelUpdateName = new JLabel("Enter Trail Name: ");
@@ -197,12 +199,12 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlUpdate.add(txfUpdateName);
 		pnlUpdate.add(txfLabelUpdateUpdate);
 		pnlUpdate.add(txfUpdateUpdate);
-		
+
 		JPanel updateBtnPanel = new JPanel();
 		updateBtnPanel.add(btnTitleUpdate, BorderLayout.CENTER);
 		pnlUpdate.add(updateBtnPanel);
 		btnTitleUpdate.addActionListener(this);
-		
+
 		//Add Panel
 		pnlAdd = new JPanel();
 		pnlAdd.setLayout(new GridLayout(18, 1));
@@ -255,8 +257,8 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		btnAddTrail = new JButton("Add");
 		btnAddTrail.addActionListener(this);
 		panel.add(btnAddTrail);
-		pnlAdd.add(panel);		
-		
+		pnlAdd.add(panel);
+
 		add(pnlContent, BorderLayout.CENTER);
 		setTableSize();
 	}
@@ -318,26 +320,26 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 			pnlContent.add(pnlDelete);
 			pnlContent.revalidate();
 			this.repaint();
-			
+
 		} else if (e.getSource() == btnUpdate) {
 
 			pnlContent.removeAll();
 			pnlContent.add(pnlUpdate);
 			pnlContent.revalidate();
 			this.repaint();
-			
+
 		} else if (e.getSource() == btnAdd) {
 			pnlContent.removeAll();
 			pnlContent.add(pnlAdd);
 			pnlContent.revalidate();
 			this.repaint();
-			
-		} else if (e.getSource() == btnTitleUpdate) {	
-			
+
+		} else if (e.getSource() == btnTitleUpdate) {
+
 			String update = txfUpdateFeature.getText();
 			String name = txfUpdateName.getText();
 			String columnName = txfUpdateUpdate.getText();
-			
+
 			if (name.length() > 0) {
 				db.modifyTrail(update, columnName, name);
 				JOptionPane.showMessageDialog(null, "Updated Successfully!");
@@ -372,14 +374,14 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 				this.repaint();
 			}
 		} else if (e.getSource() == btnAddTrail) {
-			int hasCampsites = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
+/*			int hasCampsites = (addTrailCampsitesField.getText().equals("y")) ? 1 : 0;
 			Trail trail = new Trail( addTrailNameField.getText(),
 					addTrailLocationField.getText(),
-			 Float.parseFloat(addTrailLengthField.getText()),
+					Float.parseFloat(addTrailLengthField.getText()),
 					Float.parseFloat(addTrailRatingField.getText()),
-			 Integer.parseInt(addTrailElevationField.getText()), hasCampsites,
-			 addPolicyNameField.getText());
-			db.addTrail(trail);
+					Integer.parseInt(addTrailElevationField.getText()), hasCampsites,
+					addPolicyNameField.getText());*/
+			//db.addTrail(trail);
 			JOptionPane.showMessageDialog(null, "Added Successfully!");
 		}
 
