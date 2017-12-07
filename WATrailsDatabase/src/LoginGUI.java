@@ -1,6 +1,7 @@
 import util.DatabaseUtils;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,7 +48,7 @@ public class LoginGUI extends JFrame {
 
     private void addComponents() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6,1));
+        panel.setLayout(new GridLayout(8,0));
 
         JLabel welcome = new JLabel("Welcome to WA State Trails Database!", JLabel.CENTER);
         welcome.setForeground(Color.BLUE);
@@ -72,8 +73,13 @@ public class LoginGUI extends JFrame {
         couldNotFindLabel.setForeground(Color.RED);
         panel.add(couldNotFindLabel);
 
+        JLabel register = new JLabel("Click Create User if you wish to Register an account", JLabel.CENTER);
+        JLabel register2 = new JLabel("Or Login if you already have an account", JLabel.CENTER);
+
         pnlAdd = new JPanel();
-        pnlAdd.setLayout(new GridLayout(8, 0));
+
+        pnlAdd.setLayout(new GridLayout(9, 0));
+
         String labelNames[] = {"Enter HikerId", "Enter PathfinderId: ", "Enter HikerCategoryId: ", "Enter Name: ",
                 "Enter Gender: ", "Enter Age: ", "Enter Experience(yrs): "};
 
@@ -116,11 +122,11 @@ public class LoginGUI extends JFrame {
 
             }
         });
-
-        panel2.add(btnAddTrail);
+        pnlAdd.add(register);
+        panel2.add(btnAddTrail, BorderLayout.CENTER);
         pnlAdd.add(panel2);
 
-        add(pnlAdd, BorderLayout.CENTER);
+        add(pnlAdd, BorderLayout.EAST);
 
 
 
@@ -153,7 +159,9 @@ public class LoginGUI extends JFrame {
             }
         });
 
-        add(panel);
+        add(panel, BorderLayout.WEST);
+
+        pack();
     }
 
     /**
