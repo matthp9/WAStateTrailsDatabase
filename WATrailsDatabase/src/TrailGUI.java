@@ -45,6 +45,7 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 	private JLabel lblTitle;;
 	private JTextField txfTitle;
 	private JButton btnTitleSearch;
+	private JComboBox<String> jcbSearchSelect;
 
 	private JPanel pnlUpdate;
 	private JLabel txfLabelUpdateFeature;
@@ -165,10 +166,13 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		pnlSearch = new JPanel();
 		lblTitle = new JLabel("Enter Name: ");
 		txfTitle = new JTextField(25);
+		String[] searches = {"Name", "Location"};
+		jcbSearchSelect = new JComboBox<>(searches);
 		btnTitleSearch = new JButton("Search");
 		btnTitleSearch.addActionListener(this);
 		pnlSearch.add(lblTitle);
 		pnlSearch.add(txfTitle);
+		pnlSearch.add(jcbSearchSelect);
 		pnlSearch.add(btnTitleSearch);
 
 		//Delete Panel
@@ -356,7 +360,11 @@ public class TrailGUI extends JFrame implements ActionListener, TableModelListen
 		} else if (e.getSource() == btnTitleSearch) {
 			String name = txfTitle.getText();
 			if (name.length() > 0) {
-				list = db.getTrail(name);
+				if(jcbSearchSelect.getSelectedItem().toString().equals("Name")) {
+					list = db.getTrail(name);
+				} else {
+					list = db.getTrailByLocation(name);
+				}
 				data = new Object[list.size()][columnNames.length];
 				for (int i=0; i<list.size(); i++) {
 					data[i][0] = list.get(i).getName();

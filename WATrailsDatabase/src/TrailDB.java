@@ -183,4 +183,24 @@ public class TrailDB {
 		}
 
 	}
+
+	public List<Trail> getTrailByLocation(String location) {
+        List<Trail> filterList = new ArrayList<Trail>();
+        try {
+            list = getTrail();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (Trail trail : list) {
+            try {
+                System.out.println(trail.getLoc());
+                if (trail.getLoc().toLowerCase().contains(location.toLowerCase())) {
+                    filterList.add(trail);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+        return filterList;
+    }
 }
