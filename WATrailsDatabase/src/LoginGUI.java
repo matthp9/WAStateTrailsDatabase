@@ -1,7 +1,3 @@
-package WATrailsDatabase.src;
-
-import WATrailsDatabase.src.util.DatabaseUtils;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
