@@ -176,12 +176,28 @@ public class TrailDB {
 	}
 
 	public List<Trail> getTrailByLocation(String location) {
-		List<Trail> filterList = new ArrayList<Trail>();
+		List<Trail> filterList = new ArrayList<>();
 		list = getTrail();
 		for (Trail trail : list) {
 			try {
-				System.out.println(trail.getLoc());
 				if (trail.getLoc().toLowerCase().contains(location.toLowerCase())) {
+					filterList.add(trail);
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		return filterList;
+	}
+
+	public List<Trail> getTrailByName(String name) {
+		List<Trail> filterList = new ArrayList<>();
+		list = getTrail();
+		for (Trail trail : list) {
+			try {
+				System.out.println(trail.getName());
+				System.out.println(name);
+				if (trail.getName().toLowerCase().contains(name.toLowerCase())) {
 					filterList.add(trail);
 				}
 			} catch (NullPointerException e) {
